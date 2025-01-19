@@ -11,9 +11,9 @@ import { Personal } from "../pages/personal/Personal";
 import { Footer } from "../components/templates/Footer";
 import { UserProfile } from "../pages/user-profile/UserProfile";
 import { Users } from "../pages/users/Users";
-import { useContext} from "react";
+import { useContext } from "react";
 import { AuthContext } from "../auth/context/AuthContext";
-import { DashboardProvider } from "../../context/DashboardProvider";
+import { DashboardProvider } from "../context/DashboardProvider";
 
 export const DashboardRoutes = () => {
   const { login } = useContext(AuthContext);

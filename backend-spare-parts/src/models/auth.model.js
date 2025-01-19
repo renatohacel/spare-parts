@@ -1,5 +1,6 @@
-import { User } from "../../schemas/user.schema.js";
+
 import bcrypt from 'bcrypt';
+import { User } from '../schemas/user.schema.js';
 
 
 export class AuthModel {

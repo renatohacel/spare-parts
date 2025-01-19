@@ -1,8 +1,16 @@
 import { FaUserCog } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
 import { Card } from "../../components/templates/Card";
+import { useContext } from "react";
+import { Modal } from "../../components/modal/Modal";
+import { DashboardContext } from "../../context/DashboardContext";
+import { UserProfileForm } from "./form/UserProfileForm";
+import { ProfileCard } from "./ProfileCard";
 
 export const UserProfile = () => {
+  const { userProfileHook } = useContext(DashboardContext);
+  const { visibleForm } = userProfileHook;
+
   return (
     <>
       {/* Contenido principal */}
@@ -14,8 +22,15 @@ export const UserProfile = () => {
         </div>
 
         <Card>
-          <h2 className="mb-6 font-medium">Detalles de Mi Perfil</h2>
+          <h2 className="mb-6 font-medium text-xl">Detalles de Mi Perfil</h2>
+          <ProfileCard />
         </Card>
+
+        {visibleForm && (
+          <Modal title={"Editar Mi Usuario/Contraseña"}>
+            <UserProfileForm />
+          </Modal>
+        )}
       </main>
     </>
   );

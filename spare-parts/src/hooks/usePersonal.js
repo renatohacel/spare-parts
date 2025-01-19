@@ -1,5 +1,5 @@
 import { useReducer, useState } from "react"
-import { createPersonal, deleteById, getAllPersonal, updateEmployee } from "../src/pages/personal/services/personalService"
+import { createPersonal, deleteByIdPersonal, getAllPersonal, updateEmployee } from "../pages/personal/services/personalService"
 import { personalReducer } from "../reducers/personalReducer"
 import Swal from 'sweetalert2';
 
@@ -34,12 +34,13 @@ const initialPersonal = [];
 
 
 export const usePersonal = () => {
-    const [visibleForm, setVisibleForm] = useState(false);
     const [personal, dispatch] = useReducer(personalReducer, initialPersonal);
+    const [visibleForm, setVisibleForm] = useState(false);
     const [errors, setErrors] = useState({});
     const [employeeSelected, setEmployeeSelected] = useState(initialPersonalForm);
     const [isLoading, setIsLoading] = useState(false);
     const [isSend, setIsSend] = useState(false);
+    const [editing, setEditing] = useState(false);
 
     const getPersonal = async () => {
         try {
@@ -57,24 +58,24 @@ export const usePersonal = () => {
     }
 
     const handlerAddPersonal = async (employee) => {
-        let response;
+
         try {
-            if (employee.id === 0) {
-                response = await createPersonal(employee);
-            } else {
-                response = await updateEmployee(employee);
-            }
+            const response = employee.id === 0
+                ? await createPersonal(employee)
+                : await updateEmployee(employee);
 
             if (response.status === 201) {
-                setIsSend(true);
                 dispatch({
-                    type: (employee.id === 0) ? "addUser" : "updateUser",
+                    type: (employee.id === 0) ? "addEmployee" : "updateEmployee",
                     payload: response.data.result
                 });
-                await getPersonal();
+
                 if (employee.id === 0) {
+                    setIsSend(true);
                     onSend();
-                } else {
+                }
+
+                if (employee.id > 0) {
                     handlerCloseFormPersonal();
                     Toast.fire({
                         icon: "success",
@@ -82,6 +83,10 @@ export const usePersonal = () => {
                     });
                     setIsSend(false);
                 }
+
+                // await getPersonal();
+
+
             } else if (response.status === 409) {
                 setErrors({ num_employee: 'El número de empleado ya está registrado' });
 
@@ -115,7 +120,7 @@ export const usePersonal = () => {
             confirmButtonText: "Si, eliminar"
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteById(id);
+                deleteByIdPersonal(id);
                 dispatch({
                     type: "deleteEmployee",
                     payload: id,
@@ -129,6 +134,7 @@ export const usePersonal = () => {
     }
 
     const handlerEmployeeSelected = (employee) => {
+        setEditing(true);
         setVisibleForm(true);
         setEmployeeSelected({
             ...employee
@@ -136,13 +142,13 @@ export const usePersonal = () => {
     }
 
     const handlerOpenFormPersonal = () => {
+        setEditing(false);
         setVisibleForm(true);
-        setEmployeeSelected(initialPersonalForm);
     }
 
     const handlerCloseFormPersonal = () => {
         setVisibleForm(false);
-        setEmployeeSelected(initialPersonal);
+        setEmployeeSelected(initialPersonalForm);
         setErrors({})
     }
 
@@ -154,7 +160,7 @@ export const usePersonal = () => {
 
         setTimeout(() => {
             setIsSend(false);
-        }, 2000);
+        }, 1000);
     }
 
 
@@ -170,6 +176,7 @@ export const usePersonal = () => {
         isLoading,
         isSend,
         errors,
+        editing,
         //functions
         handlerEmployeeSelected,
         handlerOpenFormPersonal,

@@ -1,7 +1,6 @@
 import { AiOutlineProduct } from "react-icons/ai";
 import { Card } from "../../components/templates/Card";
 import { IoIosArrowForward } from "react-icons/io";
-import { TableInventory } from "./table/TableInventory";
 
 export const ListInventory = () => {
   return (
@@ -18,7 +17,7 @@ export const ListInventory = () => {
           <h2 className="mb-6 font-medium text-xl">
             Lista de Artículos Registrados
           </h2>
-          <TableInventory />
+          {/* <TableInventory /> */}
         </Card>
       </main>
     </>

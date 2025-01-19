@@ -58,7 +58,7 @@ export const Sidebar = () => {
         {/* Botón circular */}
         <NavLink
           to={"/my-profile"}
-          className="w-12 h-9 text-center bg-slate-600 text-blue-50 font-semibold border hover:border-slate-500 hover:border-opacity-50 rounded-full hover:bg-slate-200 hover:text-black transition duration-300 mt-[4px] shadow-lg"
+          className="w-12 h-9 text-center bg-slate-600 text-blue-50 font-semibold border hover:border-teal-700 hover:border-opacity-50 rounded-full hover:bg-teal-600 transition duration-300 mt-[4px] shadow-lg"
         >
           <p className="text-lg mt-[2px]">
             {login.user?.username.charAt(0).toUpperCase()}

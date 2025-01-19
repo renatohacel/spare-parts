@@ -10,6 +10,11 @@ export const loginReducer = (state = {}, action) => {
             return {
                 isAuth: false,
             }
+        case 'updateProfile':
+            return {
+                ...state,
+                user: action.payload
+            }
         default:
             return state;
     }

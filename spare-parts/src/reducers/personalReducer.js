@@ -1,11 +1,17 @@
 export const personalReducer = (state = [], action) => {
     switch (action.type) {
         case 'addEmployee':
-            return [...state, action.payload];
+            return [action.payload, ...state];
+
         case 'updateEmployee':
-            return state.map(emp =>
-                emp.id === action.payload.id ? action.payload : emp
-            );
+            return state.map((employee) => {
+                if (employee.id === action.payload.id) {
+                    return {
+                        ...action.payload
+                    };
+                }
+                return employee;
+            });
         case 'deleteEmployee':
             return state.filter(emp => emp.id !== action.payload);
         case 'loadPersonal':

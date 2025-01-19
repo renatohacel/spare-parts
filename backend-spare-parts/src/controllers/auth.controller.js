@@ -24,13 +24,15 @@ export class AuthController {
 
             const token = jwt.sign(
                 {
-                    id: user.id,
-                    username: user.username,
-                    name: user.name,
-                    num_employee: user.num_employee,
-                    email: user.email,
-                    shift: user.shift,
-                    isAdmin: user.isAdmin,
+                    user: {
+                        id: user.id,
+                        username: user.username,
+                        name: user.name,
+                        num_employee: user.num_employee,
+                        email: user.email,
+                        shift: user.shift,
+                        isAdmin: user.isAdmin,
+                    }
                 },
                 SECRET_JWT_KEY,
                 { expiresIn: '8h' }

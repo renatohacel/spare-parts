@@ -1,6 +1,6 @@
 
 import { DataTypes } from 'sequelize'
-import { sequelize } from '../src/config/dbConfig.js';
+import { sequelize } from '../config/dbConfig.js';
 
 export const User = sequelize.define('user', {
     id: {
@@ -27,10 +27,6 @@ export const User = sequelize.define('user', {
     name: {
         type: DataTypes.STRING(255),
         allowNull: false,
-    },
-    email: {
-        type: DataTypes.STRING(255),
-        unique: true,
     },
     shift: {
         type: DataTypes.TINYINT,

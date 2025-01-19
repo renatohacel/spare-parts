@@ -27,7 +27,7 @@ export const createPersonal = async ({ name, role, num_employee, shift, area, ma
     }
 }
 
-export const deleteById = async (id) => {
+export const deleteByIdPersonal = async (id) => {
     try {
         await axios.delete(`${BASE_URL}/${id}`, {}, { withCredentials: true });
     } catch (error) {

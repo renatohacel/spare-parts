@@ -65,6 +65,21 @@ export const useAuth = () => {
         }
     };
 
+    const handlerUpdateProfile = (updatedUser) => {
+        dispatch({
+            type: "updateProfile",
+            payload: updatedUser,
+        });
+
+        sessionStorage.setItem(
+            "login",
+            JSON.stringify({
+                isAuth: true,
+                user: updatedUser,
+            })
+        );
+    };
+
 
     return {
         //const
@@ -72,7 +87,8 @@ export const useAuth = () => {
 
         //functions
         handlerLogin,
-        handlerLogout
+        handlerLogout,
+        handlerUpdateProfile,
 
     }
 }

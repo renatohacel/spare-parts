@@ -2,16 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import { DashboardContext } from "../../../context/DashboardContext";
 import { FaCheck } from "react-icons/fa";
 
-export const PersonalForm = () => {
-  const { personalHook, generalHook } = useContext(DashboardContext);
+export const UsersForm = () => {
+  const { usersHook, generalHook } = useContext(DashboardContext);
   const {
-    initialPersonalForm,
-    employeeSelected,
-    handlerCloseFormPersonal,
-    handlerAddPersonal,
-    isSend,
+    initialUsersForm,
+    handlerCloseFormUsers,
     errors,
-  } = personalHook;
+    userSelected,
+    handlerAddUser,
+    isSend,
+  } = usersHook;
   const {
     //GENERALS
     onInputShift,
@@ -22,36 +22,50 @@ export const PersonalForm = () => {
     onInputNumEm,
   } = generalHook;
 
-  const [personalForm, setPersonalForm] = useState(initialPersonalForm);
-  const { id, name, num_employee, role, area, manager, shift } = personalForm;
+  const [usersForm, setUsersForm] = useState(initialUsersForm);
+  const { id, username, password, name, num_employee, shift, isAdmin } =
+    usersForm;
 
   useEffect(() => {
-    setPersonalForm({ ...employeeSelected });
-  }, [employeeSelected]);
+    setUsersForm({ ...userSelected });
+  }, [userSelected]);
 
   const onInputChange = ({ target: { value, name } }) => {
-    setPersonalForm({ ...personalForm, [name]: value });
+    setUsersForm({ ...usersForm, [name]: value });
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const formData = {
-      ...personalForm,
-      num_employee: personalForm.num_employee
-        ? parseInt(personalForm.num_employee, 10)
-        : null,
-      shift: personalForm.shift ? parseInt(personalForm.shift, 10) : null,
-    };
-    handlerAddPersonal(formData);
+    let formData;
+    if (usersForm.password === "") {
+      formData = {
+        id,
+        username,
+        name,
+        num_employee: parseInt(usersForm.num_employee, 10),
+        shift: parseInt(usersForm.shift, 10),
+        isAdmin: parseInt(usersForm.isAdmin, 10),
+      };
+    } else {
+      formData = {
+        ...usersForm,
+        num_employee: parseInt(usersForm.num_employee, 10),
+        shift: parseInt(usersForm.shift, 10),
+        isAdmin: parseInt(usersForm.isAdmin, 10),
+      };
+    }
+    handlerAddUser(formData);
   };
 
   const onCloseForm = () => {
-    handlerCloseFormPersonal();
-    setPersonalForm(initialPersonalForm);
+    handlerCloseFormUsers();
   };
 
   return (
-    <form className="flex flex-col gap-4 w-auto p-2" onSubmit={onSubmit}>
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col gap-4 w-full max-w-4xl p-2 mx-auto"
+    >
       {isSend && (
         <p
           className="text-green-700 italic flex gap-2 ml-3"
@@ -62,7 +76,45 @@ export const PersonalForm = () => {
       )}
       <input type="hidden" name="id" value={id} />
       <div className="flex flex-row gap-5 w-full overflow-auto">
-        <div className="flex flex-col p-1">
+        <div className="flex flex-col p-1 w-full">
+          <label
+            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
+            htmlFor="username"
+          >
+            Username
+          </label>
+          <input
+            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50 w-full"
+            name="username"
+            type="text"
+            value={username || ""}
+            onChange={onInputChange}
+          />
+          <p className="text-red-500 italic" style={{ fontSize: "0.9rem" }}>
+            {errors?.username}
+          </p>
+        </div>
+        <div className="flex flex-col p-1 w-full">
+          <label
+            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
+            htmlFor="password"
+          >
+            Contraseña
+          </label>
+          <input
+            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50 w-full"
+            name="password"
+            type="password"
+            value={password || ""}
+            onChange={onInputChange}
+          />
+          <p className="text-red-500 italic" style={{ fontSize: "0.9rem" }}>
+            {errors?.password}
+          </p>
+        </div>
+      </div>
+      <div className="flex flex-row gap-5 w-full overflow-auto">
+        <div className="flex flex-col p-1 w-full">
           <label
             className="text-slate-400 font-medium mb-1 whitespace-nowrap"
             htmlFor="name"
@@ -70,10 +122,10 @@ export const PersonalForm = () => {
             Nombre
           </label>
           <input
-            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
+            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50 w-full"
             name="name"
             type="text"
-            value={name}
+            value={name || ""}
             onChange={onInputChange}
             onKeyDown={onKeyName}
             onInput={onInputName}
@@ -82,7 +134,7 @@ export const PersonalForm = () => {
             {errors?.name}
           </p>
         </div>
-        <div className="flex flex-col p-1">
+        <div className="flex flex-col p-1 w-full">
           <label
             className="text-slate-400 font-medium mb-1 whitespace-nowrap"
             htmlFor="num_employee"
@@ -90,12 +142,11 @@ export const PersonalForm = () => {
             No. Empleado
           </label>
           <input
-            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
+            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50 w-full"
             name="num_employee"
             type="text"
-            value={num_employee}
+            value={num_employee || ""}
             onChange={onInputChange}
-            maxLength={8}
             onKeyDown={onKeyNumEm}
             onInput={onInputNumEm}
           />
@@ -103,66 +154,9 @@ export const PersonalForm = () => {
             {errors?.num_employee}
           </p>
         </div>
-        <div className="flex flex-col p-1">
-          <label
-            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
-            htmlFor="role"
-          >
-            Puesto
-          </label>
-          <input
-            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
-            name="role"
-            type="text"
-            value={role}
-            onChange={onInputChange}
-          />
-          <p className="text-red-500 italic" style={{ fontSize: "0.9rem" }}>
-            {errors?.role}
-          </p>
-        </div>
       </div>
-
       <div className="flex flex-row gap-5 w-full overflow-auto">
-        <div className="flex flex-col p-1">
-          <label
-            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
-            htmlFor="area"
-          >
-            Area
-          </label>
-          <input
-            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
-            name="area"
-            type="text"
-            value={area}
-            onChange={onInputChange}
-          />
-          <p className="text-red-500 italic" style={{ fontSize: "0.9rem" }}>
-            {errors?.area}
-          </p>
-        </div>
-        <div className="flex flex-col p-1">
-          <label
-            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
-            htmlFor="manager"
-          >
-            Manager
-          </label>
-          <input
-            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
-            name="manager"
-            type="text"
-            value={manager}
-            onChange={onInputChange}
-            onKeyDown={onKeyName}
-            onInput={onInputName}
-          />
-          <p className="text-red-500 italic" style={{ fontSize: "0.9rem" }}>
-            {errors?.manager}
-          </p>
-        </div>
-        <div className="flex flex-col w-full p-1">
+        <div className="flex flex-col p-1 w-full">
           <label
             className="text-slate-400 font-medium mb-1 whitespace-nowrap"
             htmlFor="shift"
@@ -175,7 +169,7 @@ export const PersonalForm = () => {
             type="number"
             min={1}
             max={3}
-            value={shift}
+            value={shift || ""}
             onChange={onInputChange}
             onKeyDown={onKeyShift}
             onInput={onInputShift}
@@ -184,8 +178,25 @@ export const PersonalForm = () => {
             {errors?.shift}
           </p>
         </div>
+        <div className="flex flex-col p-1 w-full">
+          <label
+            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
+            htmlFor="isAdmin"
+          >
+            Tipo de usuario
+          </label>
+          <select
+            name="isAdmin"
+            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50 w-full"
+            value={isAdmin || ""}
+            onChange={onInputChange}
+          >
+            <option value={0}>Estándar</option>
+            <option value={1}>Administrador</option>
+          </select>
+        </div>
       </div>
-      <div className="flex gap-3 w-full overflow-auto mt-4">
+      <div className="flex gap-3 w-full overflow-auto mt-4 p-1">
         {id === 0 ? (
           <button
             type="submit"
@@ -201,6 +212,7 @@ export const PersonalForm = () => {
             Editar
           </button>
         )}
+
         <button
           type="button"
           className="shadow text-slate-400 text-center text-sm border border-gray-300 p-2 rounded-lg hover:bg-gray-400 hover:text-gray-100 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"

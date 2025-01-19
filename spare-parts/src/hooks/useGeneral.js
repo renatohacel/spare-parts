@@ -1,6 +1,6 @@
 export const useGeneral = () => {
     const onKeyShift = (e) => {
-        if (e.key === "Tab") return;
+        if (e.key === "Tab" || e.key === "Enter") return;
         if (
             e.key === "-" ||
             e.key === "e" ||

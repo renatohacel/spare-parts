@@ -20,15 +20,14 @@ const userSchema = z.object({
         invalid_type_error: 'El nombre debe ser una cadena de texto',
         required_error: 'El nombre es obligatorio',
     }).min(3, { message: 'El nombre debe tener mínimo 3 caractéres' }),
-    email: z.string().email({ message: 'El email debe ser válido' }).optional(),
 
     shift: z.number({
         invalid_type_error: 'El Turno debe ser un número entre 1-3',
         required_error: 'El Turno es obligatorio'
     }).min(1, { message: 'El turno mínimo es 1' }).max(3, { message: 'El turno máximo es 3' }),
 
-    isAdmin: z.boolean({
-        invalid_type_error: 'Tipo de usuario Admin debe ser verdadero o falso'
+    isAdmin: z.number({
+        invalid_type_error: 'Tipo de usuario Admin debe ser 1 o 0'
     })
 })
 
