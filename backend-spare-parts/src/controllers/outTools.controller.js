@@ -4,7 +4,7 @@ import { validateOutTools, validatePartialOutTools } from "../validate_schemas/o
 export class OutToolsController {
     static async getAll(req, res) {
         const outTools = await OutToolsModel.getAll();
-        return res.status(200).send(outTools)
+        return res.status(200).send(outTools);
     }
 
     static async create(req, res) {
@@ -16,6 +16,7 @@ export class OutToolsController {
         }
 
         try {
+            console.log('Creating out tool with input:', req.body);
             const result = await OutToolsModel.create({ input: req.body });
 
             if (result.error) {
@@ -46,6 +47,7 @@ export class OutToolsController {
         const { id } = req.params;
         const tool = req.headers['tool-name'];
         try {
+            console.log('Deleting out tool with id:', id, 'and tool:', tool);
             const result = await OutToolsModel.delete({ id, tool });
             if (!result) {
                 return res.status(404).json({ message: 'No se encontró la herramienta' });
@@ -58,13 +60,14 @@ export class OutToolsController {
     }
 
     static async update(req, res) {
-        const { id } = req.params
-        //Validar datos
+        const { id } = req.params;
+        // Validar datos
         const input = validatePartialOutTools(req.body);
 
         if (input.error) return res.status(400).json({ error: JSON.parse(input.error.message) });
 
         try {
+            console.log('Updating out tool with id:', id, 'and input:', req.body);
             const result = await OutToolsModel.update({ id, input: req.body });
 
             if (result === null) return res.status(404).json({ message: 'No se encontro el préstamo de herramienta' });
@@ -89,10 +92,30 @@ export class OutToolsController {
             return res.status(201).send({ result });
 
         } catch (error) {
-            console.log(error)
-            return res.status(500).send({ message: 'Error en el servidor' })
+            console.log(error);
+            return res.status(500).send({ message: 'Error en el servidor' });
         }
     }
 
+    static async check_return(req, res) {
+        const { id } = req.params;
+        // Validar datos
+        const input = validatePartialOutTools(req.body);
+
+        if (input.error) return res.status(400).json({ error: JSON.parse(input.error.message) });
+
+        try {
+            console.log('Checking return for out tool with id:', id, 'and input:', req.body);
+            const result = await OutToolsModel.check_return({ id, input: req.body });
+
+            if (result === null) return res.status(404).json({ message: 'No se encontro el préstamo de herramienta' });
+
+            return res.status(201).send({ result });
+
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send({ message: 'Error en el servidor' });
+        }
+    }
 }
 

@@ -38,7 +38,17 @@ export const updateOutTool = async (input) => {
         const response = await axios.patch(`${BASE_URL}/${input.id}`, input, { withCredentials: true });
         return response;
     } catch (error) {
-        console.error('Error response createOutTool:', error.response); // Log the error response
+        console.error('Error response updateOutTool:', error.response); // Log the error response
+        return error.response;
+    }
+}
+
+export const checkReturn = async (input) => {
+    try {
+        const response = await axios.patch(`${BASE_URL}/check-return/${input.id}`, input, { withCredentials: true });
+        return response;
+    } catch (error) {
+        console.error('Error response checkOutTool:', error.response); // Log the error response
         return error.response;
     }
 }

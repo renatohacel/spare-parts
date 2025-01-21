@@ -4,6 +4,7 @@ import { FaCheck, FaEdit, FaTrash } from "react-icons/fa";
 import { DashboardContext } from "../../../context/DashboardContext";
 import { CgSandClock } from "react-icons/cg";
 import { Tooltip } from "react-tooltip";
+import { components } from "react-select";
 export const TableRow = ({
   index,
   records,
@@ -24,7 +25,11 @@ export const TableRow = ({
 }) => {
   const { login } = useContext(AuthContext);
   const { toolsHook, outToolsHook } = useContext(DashboardContext);
-  const { handlerOutToolSelected, handlerDeleteOutTool } = outToolsHook;
+  const {
+    handlerOutToolSelected,
+    handlerDeleteOutTool,
+    handlerCommentsSelected,
+  } = outToolsHook;
 
   return (
     <tr className="bg-white transition-all duration-500 hover:bg-slate-100 text-center">
@@ -71,6 +76,13 @@ export const TableRow = ({
                 id="no-return"
                 data-tooltip-place="top"
                 className="rounded-full transition-all duration-300 bg-orange-400 p-2 text-xs bg-opacity-50 text-orange-600 hover:bg-orange-500 hover:bg-opacity-70 hover:text-orange-300"
+                onClick={() => {
+                  handlerCommentsSelected({
+                    id,
+                    comments: comments || "",
+                    tool,
+                  });
+                }}
               >
                 <CgSandClock />
               </button>

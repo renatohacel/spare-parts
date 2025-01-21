@@ -16,3 +16,6 @@ outToolsRouter.delete('/:id', OutToolsController.delete);
 //update
 outToolsRouter.patch('/:id', OutToolsController.update);
 
+//check
+outToolsRouter.patch('/check-return/:id', OutToolsController.check_return);
+

@@ -267,12 +267,21 @@ export const OutToolForm = () => {
       </div>
 
       <div className="flex gap-3 w-full overflow-auto mt-4 p-1 col-span-2">
-        <button
-          type="submit"
-          className="shadow text-slate-200 text-center text-sm bg-teal-600 p-2 rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700 w-32 transition"
-        >
-          Registrar
-        </button>
+        {id === 0 ? (
+          <button
+            type="submit"
+            className="shadow text-slate-200 text-center text-sm bg-teal-600 p-2 rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700 w-32 transition"
+          >
+            Registrar
+          </button>
+        ) : (
+          <button
+            type="submit"
+            className="shadow text-slate-200 text-center text-sm bg-amber-500 p-2 rounded-lg hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-800 w-32 transition"
+          >
+            Editar
+          </button>
+        )}
         <button
           type="button"
           className="shadow text-slate-400 text-center text-sm border border-gray-300 p-2 rounded-lg hover:bg-gray-400 hover:text-gray-100 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"

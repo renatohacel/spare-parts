@@ -5,11 +5,19 @@ import { OutToolForm } from "../form/OutToolForm";
 import { DashboardContext } from "../../../context/DashboardContext";
 import { OrbitProgress } from "react-loading-indicators";
 import { TableRow } from "./TableRow";
+import { CheckReturnForm } from "../form/CheckReturnForm";
 
 export const TableOutsTools = () => {
   const { login } = useContext(AuthContext);
   const { outToolsHook } = useContext(DashboardContext);
-  const { visibleForm, outTools, getOutTools, isLoading } = outToolsHook;
+  const {
+    visibleForm,
+    outTools,
+    getOutTools,
+    isLoading,
+    visibleCommentsForm,
+    editing,
+  } = outToolsHook;
 
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -162,8 +170,13 @@ export const TableOutsTools = () => {
         </table>
       </div>
       {visibleForm && (
-        <Modal title={"Registrar Préstamo"}>
+        <Modal title={editing ? "Editar Préstamo" : "Registrar Préstamo"}>
           <OutToolForm />
+        </Modal>
+      )}
+      {visibleCommentsForm && (
+        <Modal title={"Registrar Regreso de Herramienta"}>
+          <CheckReturnForm />
         </Modal>
       )}
     </>

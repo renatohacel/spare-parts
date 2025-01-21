@@ -1,6 +1,6 @@
 import { useReducer, useState } from "react"
 import { outToolReducer } from "../reducers/outToolReducer";
-import { createOutTool, deleteOutTool, getAllOutTools, updateOutTool } from "../pages/tools/services/outToolsService";
+import { checkReturn, createOutTool, deleteOutTool, getAllOutTools, updateOutTool } from "../pages/tools/services/outToolsService";
 import Swal from "sweetalert2";
 
 
@@ -33,10 +33,19 @@ const initialOutToolForm = {
     area: "",
 }
 
+const initialCommentsForm = {
+    id: 0,
+    comments: '',
+    tool: ''
+}
+
 export const useOutTools = () => {
     const [outTools, dispatch] = useReducer(outToolReducer, [])
     const [outToolSelected, setOutToolSelected] = useState(initialOutToolForm);
+    const [commentsSelected, setCommentsSelected] = useState(initialCommentsForm)
     const [visibleForm, setVisibleForm] = useState(false);
+    const [visibleCommentsForm, setVisibleCommentsForm] = useState(false);
+
     const [isLoading, setIsLoading] = useState(false);
     const [editing, setEditing] = useState(false);
     const [errors, setErrors] = useState({});
@@ -61,7 +70,6 @@ export const useOutTools = () => {
 
     const handlerAddOutTool = async (outTool) => {
         try {
-            console.log(outTool)
             const response = outTool.id === 0
                 ? await createOutTool(outTool)
                 : await updateOutTool(outTool)
@@ -116,6 +124,31 @@ export const useOutTools = () => {
         }
     }
 
+    const handlerCheckReturn = async (input) => {
+        try {
+            const response = await checkReturn(input);
+
+            if (response && response.status === 201) {
+                dispatch({
+                    type: 'updateOutTool',
+                    payload: response.data.result
+                });
+                handlerCloseFormReturn();
+                Toast.fire({
+                    icon: "success",
+                    title: "Devolución exitosa",
+                });
+            } else {
+                throw new Error('Error desconocido');
+            }
+        } catch (error) {
+            console.error('Error in handlerCheckReturn:', error);
+            Toast.fire({
+                icon: "error",
+                title: "Error al registrar devolución de herramienta",
+            });
+        }
+    }
 
     const handlerOutToolSelected = (outTool) => {
         setEditing(true);
@@ -125,6 +158,12 @@ export const useOutTools = () => {
             selectedReceiver: outTool.selectedReceiver,
             selectedTool: outTool.selectedTool
         });
+    }
+    const handlerCommentsSelected = (comments) => {
+        setVisibleCommentsForm(true);
+        setCommentsSelected({
+            ...comments
+        })
     }
 
     const handlerDeleteOutTool = async (id, tool) => {
@@ -163,6 +202,11 @@ export const useOutTools = () => {
         setErrors({});
     }
 
+    const handlerCloseFormReturn = () => {
+        setVisibleCommentsForm(false);
+        setCommentsSelected(initialCommentsForm)
+    }
+
     return {
         outTools,
         visibleForm,
@@ -171,11 +215,17 @@ export const useOutTools = () => {
         isLoading,
         editing,
         errors,
+        commentsSelected,
+        visibleCommentsForm,
+        initialCommentsForm,
         getOutTools,
         handlerOpenFormOutTool,
         handlerCloseFormOutTool,
         handlerOutToolSelected,
         handlerAddOutTool,
         handlerDeleteOutTool,
+        handlerCommentsSelected,
+        handlerCloseFormReturn,
+        handlerCheckReturn,
     }
 }
