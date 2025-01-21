@@ -185,7 +185,7 @@ export const PersonalForm = () => {
           </p>
         </div>
       </div>
-      <div className="flex gap-3 w-full overflow-auto mt-4">
+      <div className="flex gap-3 w-full overflow-auto mt-4 p-1">
         {id === 0 ? (
           <button
             type="submit"

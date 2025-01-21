@@ -4,7 +4,7 @@ const personalSchema = z.object({
     name: z.string({
         invalid_type_error: 'El Nombre debe ser una cadena de texto',
         required_error: 'El Nombre es obligatorio',
-    }).min(3, { message: 'El Nombre debe tener mínimo 3 caractéres' }),
+    }).min(3, { message: 'El Nombre debe tener mínimo 3 caracteres' }),
 
     role: z.string({
         invalid_type_error: 'El Puesto debe ser una cadena de texto',

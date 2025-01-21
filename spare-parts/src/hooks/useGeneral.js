@@ -20,6 +20,27 @@ export const useGeneral = () => {
         }
     }
 
+    const onKeyQty = (e) => {
+        if (e.key === "Tab" || e.key === "Enter") return;
+        if (
+            e.key === "-" ||
+            e.key === "e" ||
+            e.key === "+" ||
+            e.key === "." ||
+            e.key < "1"
+        ) {
+            e.preventDefault();
+        }
+    }
+
+    const onInputQty = (e) => {
+        const value = parseInt(e.target.value, 10);
+        if (value < 1) {
+            e.target.value = "";
+        }
+    }
+
+
     const onKeyName = (e) => {
         const allowedKeys = [
             "Backspace",
@@ -70,6 +91,9 @@ export const useGeneral = () => {
         onInputName,
         onKeyNumEm,
         onInputNumEm,
+        onKeyQty,
+        onInputQty,
+
     }
 }
 

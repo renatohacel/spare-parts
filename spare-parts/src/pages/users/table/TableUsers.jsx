@@ -95,7 +95,7 @@ export const TableUsers = () => {
           <tbody className="divide-y divide-gray-300">
             {isLoading ? (
               <tr>
-                <td colSpan={7} className="p-5 text-center">
+                <td colSpan={6} className="p-5 text-center">
                   <OrbitProgress
                     color="#32cd32"
                     size="large"
@@ -118,7 +118,7 @@ export const TableUsers = () => {
             ) : (
               <tr className="bg-white transition-all duration-500 hover:bg-slate-100">
                 <td
-                  colSpan={7}
+                  colSpan={6}
                   className="p-5 whitespace-nowrap text-sm leading-6 font-normal text-gray-900 text-center rounded-bl-xl rounded-br-xl"
                 >
                   No hay usuarios registrados

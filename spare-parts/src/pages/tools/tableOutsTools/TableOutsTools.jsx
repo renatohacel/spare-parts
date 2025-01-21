@@ -1,37 +1,30 @@
-import { useState, useEffect, useContext } from "react";
-import { TableRow } from "./TableRow";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../auth/context/AuthContext";
 import { Modal } from "../../../components/modal/Modal";
-import { PersonalForm } from "../form/PersonalForm";
+import { OutToolForm } from "../form/OutToolForm";
 import { DashboardContext } from "../../../context/DashboardContext";
 import { OrbitProgress } from "react-loading-indicators";
-import { AuthContext } from "../../../auth/context/AuthContext";
+import { TableRow } from "./TableRow";
 
-export const TablePersonal = () => {
+export const TableOutsTools = () => {
   const { login } = useContext(AuthContext);
-  const { personalHook } = useContext(DashboardContext);
-  const {
-    visibleForm,
-    handlerOpenFormPersonal,
-    getPersonal,
-    personal,
-    isLoading,
-    editing,
-  } = personalHook;
+  const { outToolsHook } = useContext(DashboardContext);
+  const { visibleForm, outTools, getOutTools, isLoading } = outToolsHook;
 
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [areaFilter, setAreaFilter] = useState("Area");
 
   useEffect(() => {
-    getPersonal();
+    getOutTools();
   }, []);
 
   useEffect(() => {
     applyFilters();
-  }, [personal, searchText, areaFilter]);
+  }, [outTools, searchText, areaFilter]);
 
   const applyFilters = () => {
-    let records = [...personal];
+    let records = [...outTools];
 
     // Filtrar por área
     if (areaFilter !== "Area") {
@@ -44,8 +37,22 @@ export const TablePersonal = () => {
     if (searchText.trim() !== "") {
       const lowerCaseText = searchText.toLowerCase();
       records = records.filter((record) =>
-        ["name", "num_employee", "role", "shift", "area", "manager"].some(
-          (key) => record[key]?.toString().toLowerCase().includes(lowerCaseText)
+        [
+          "responsible",
+          "num_employee_responsible",
+          "receiver",
+          "num_employee_receiver",
+          "area",
+          "tool",
+          "date_out",
+          "time_out",
+          "qty",
+          "is_returned",
+          "date_return",
+          "time_return",
+          "comments",
+        ].some((key) =>
+          record[key]?.toString().toLowerCase().includes(lowerCaseText)
         )
       );
     }
@@ -63,17 +70,7 @@ export const TablePersonal = () => {
 
   return (
     <>
-      <div className="flex justify-between mb-2">
-        <div>
-          {login.user.isAdmin === 1 && (
-            <button
-              className="shadow text-slate-200 text-center text-sm bg-teal-600 mb-3 p-2 rounded-lg hover:bg-teal-700 transition-all duration-300"
-              onClick={handlerOpenFormPersonal}
-            >
-              Registrar Personal
-            </button>
-          )}
-        </div>
+      <div className="flex justify-end mb-2">
         <div className="flex items-end gap-3">
           <select
             className="mb-3 p-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
@@ -106,12 +103,19 @@ export const TablePersonal = () => {
             <tr>
               {/* Column Headers */}
               {[
-                "Nombre",
+                "Responsable",
                 "No. Empleado",
-                "Puesto",
-                "Turno",
+                "Receptor",
+                "No. Empleado",
+                "Herramienta",
+                "Fecha de salida",
+                "Hora de salida",
                 "Area",
-                "Manager",
+                "Cantidad",
+                "Devolución",
+                "Fecha de regreso",
+                "Hora de regreso",
+                "Comentarios",
                 login.user.isAdmin === 1 && "Acciones",
               ].map((header, index) => (
                 <th
@@ -127,7 +131,7 @@ export const TablePersonal = () => {
           <tbody className="divide-y divide-gray-300">
             {isLoading ? (
               <tr>
-                <td colSpan={7} className="p-5 text-center">
+                <td colSpan={14} className="p-5 text-center">
                   <OrbitProgress
                     color="#32cd32"
                     size="large"
@@ -149,8 +153,8 @@ export const TablePersonal = () => {
               })
             ) : (
               <tr>
-                <td colSpan={7} className="p-5 text-center">
-                  No hay personal registrado
+                <td colSpan={14} className="p-5 text-center">
+                  No hay usuarios registrados
                 </td>
               </tr>
             )}
@@ -158,8 +162,8 @@ export const TablePersonal = () => {
         </table>
       </div>
       {visibleForm && (
-        <Modal title={editing ? "Editar Personal" : "Registrar personal"}>
-          <PersonalForm />
+        <Modal title={"Registrar Préstamo"}>
+          <OutToolForm />
         </Modal>
       )}
     </>

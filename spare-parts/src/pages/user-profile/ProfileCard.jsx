@@ -11,7 +11,7 @@ export const ProfileCard = () => {
     <div className="flex flex-col justify-center items-center bg-slate-100 w-100 p-5 gap-5 rounded-lg">
       {/* LOGO USER */}
       <div className="rounded-full bg-teal-600 p-10 mb-6 w-52 h-52 flex items-center justify-center shadow-lg">
-        <p className="text-9xl mb-9 text-slate-100">
+        <p className="text-9xl mb-9 text-slate-100 mt-6">
           {login.user.username.charAt(0).toUpperCase()}
         </p>
       </div>
