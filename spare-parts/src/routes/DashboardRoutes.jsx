@@ -14,6 +14,7 @@ import { Users } from "../pages/users/Users";
 import { useContext } from "react";
 import { AuthContext } from "../auth/context/AuthContext";
 import { DashboardProvider } from "../context/DashboardProvider";
+import { Rack } from "../pages/racks/Rack";
 
 export const DashboardRoutes = () => {
   const { login } = useContext(AuthContext);
@@ -26,6 +27,7 @@ export const DashboardRoutes = () => {
             <Routes>
               <Route path="/" element={<Navigate to="/home" />} />
               <Route path="home" element={<Dashboard />} />
+              <Route path="/rack" element={<Rack />} />
               <Route path="inventory" element={<ListInventory />} />
               <Route path="inventory/add" element={<AddInventory />} />
               <Route path="in-outs" element={<InOutsList />} />
