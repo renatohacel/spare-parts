@@ -1,9 +1,9 @@
 export const inventoryReducer = (state = [], action) => {
     switch (action.type) {
-        case 'addMaterial':
+        case 'addInventory':
             return [action.payload, ...state];
 
-        case 'updateMaterial':
+        case 'updateInventory':
             return state.map((material) => {
                 if (material.id === action.payload.id) {
                     return {
@@ -12,9 +12,9 @@ export const inventoryReducer = (state = [], action) => {
                 }
                 return material;
             });
-        case 'deleteMaterial':
+        case 'deleteInventory':
             return state.filter(mtl => mtl.id !== action.payload);
-        case 'loadMaterial':
+        case 'loadInventory':
             return action.payload;
         default:
             return state;

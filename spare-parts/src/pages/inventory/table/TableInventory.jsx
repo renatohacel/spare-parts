@@ -1,8 +1,68 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../auth/context/AuthContext";
+import { DashboardContext } from "../../../context/DashboardContext";
+import { TableRow } from "./TableRow";
+import { OrbitProgress } from "react-loading-indicators";
 
 export const TableInventory = () => {
   const { login } = useContext(AuthContext);
+  const { inventoryHook } = useContext(DashboardContext);
+  const { inventory, isLoading, getInventory } = inventoryHook;
+
+  const [filteredRecords, setFilteredRecords] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [ubicationFilter, setUbicationFilter] = useState("Ubication");
+
+  useEffect(() => {
+    getInventory();
+  }, []);
+
+  useEffect(() => {
+    applyFilters();
+  }, [inventory, searchText, ubicationFilter]);
+
+  const applyFilters = () => {
+    let records = [...inventory];
+
+    // Filtrar por ubication
+    if (ubicationFilter !== "Ubication") {
+      records = records.filter(
+        (record) =>
+          record.ubication?.toLowerCase() === ubicationFilter.toLowerCase()
+      );
+    }
+
+    // Filtrar por texto
+    if (searchText.trim() !== "") {
+      const lowerCaseText = searchText.toLowerCase();
+      records = records.filter((record) =>
+        [
+          "id_feature",
+          "name",
+          "part_num",
+          "suplier_part_num",
+          "qty_import_total",
+          "qty",
+          "ubication",
+          "damages",
+          "qty_export_total",
+          "comments",
+        ].some((key) =>
+          record[key]?.toString().toLowerCase().includes(lowerCaseText)
+        )
+      );
+    }
+
+    setFilteredRecords(records);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const handleUbicationChange = (e) => {
+    setUbicationFilter(e.target.value);
+  };
 
   return (
     <>
@@ -11,7 +71,7 @@ export const TableInventory = () => {
           {login.user.isAdmin === 1 && (
             <button
               className="shadow text-slate-200 text-center text-sm bg-teal-600 mb-3 p-2 rounded-lg hover:bg-teal-700 transition-all duration-300"
-              //    onClick={handlerOpenFormPersonal}
+              //    onClick={handlerOpenForminventory}
             >
               Registrar Material
             </button>
@@ -21,10 +81,10 @@ export const TableInventory = () => {
           <select
             className="mb-3 p-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
             name="area_filter"
-            //  value={areaFilter}
-            //  onChange={handleAreaChange}
+            value={ubicationFilter}
+            onChange={handleUbicationChange}
           >
-            <option value="Area">Ubicación</option>
+            <option value="Ubication">Ubicación</option>
             <option value="Integración">Integración</option>
             <option value="MFG">MFG</option>
             <option value="Procesos">Procesos</option>
@@ -38,8 +98,8 @@ export const TableInventory = () => {
             className="mb-3 p-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
             placeholder="Buscar..."
             type="text"
-            //  value={searchText}
-            //  onChange={handleSearchChange}
+            value={searchText}
+            onChange={handleSearchChange}
           />
         </div>
       </div>
@@ -74,41 +134,41 @@ export const TableInventory = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-300">
-            {/* {isLoading ? (
-               <tr>
-                 <td colSpan={7} className="p-5 text-center">
-                   <OrbitProgress
-                     color="#32cd32"
-                     size="large"
-                     text=""
-                     textColor=""
-                   />
-                 </td>
-               </tr>
-             ) : filteredRecords.length > 0 ? (
-               filteredRecords.map((record, index) => {
-                 return (
-                   <TableRow
-                     key={record.id}
-                     index={index}
-                     records={filteredRecords}
-                     {...record}
-                   />
-                 );
-               })
-             ) : (
-               <tr>
-                 <td colSpan={7} className="p-5 text-center">
-                   No hay personal registrado
-                 </td>
-               </tr>
-             )} */}
+            {isLoading ? (
+              <tr>
+                <td colSpan={7} className="p-5 text-center">
+                  <OrbitProgress
+                    color="#32cd32"
+                    size="large"
+                    text=""
+                    textColor=""
+                  />
+                </td>
+              </tr>
+            ) : filteredRecords.length > 0 ? (
+              filteredRecords.map((record, index) => {
+                return (
+                  <TableRow
+                    key={record.id}
+                    index={index}
+                    records={filteredRecords}
+                    {...record}
+                  />
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan={13} className="p-5 text-center">
+                  No hay inventory registrado
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
       {/* {visibleForm && (
-         <Modal title={editing ? "Editar Personal" : "Registrar personal"}>
-           <PersonalForm />
+         <Modal title={editing ? "Editar inventory" : "Registrar inventory"}>
+           <inventoryForm />
          </Modal>
        )} */}
     </>
