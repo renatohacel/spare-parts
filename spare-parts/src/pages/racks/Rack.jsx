@@ -27,20 +27,23 @@ export const Rack = () => {
             <div className="col-span-1">
               {/* RACK */}
               <div className="flex flex-col gap-4">
+                <p className="mt-2 text-xl text-center text-slate-400 font-mono opacity-70">
+                  LINEA A
+                </p>
                 <div className="bg-slate-600 text-center rounded-lg p-1 w-full overflow-auto text-white text-4xl font-mono mb-2">
-                  A
+                  RACK A
                 </div>
                 <button className="bg-slate-300 text-center rounded-lg p-3 w-full overflow-auto text-slate-500 text-4xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  1
-                </button>
-                <button className="bg-slate-300 text-center rounded-lg p-3 w-full overflow-auto text-slate-500 text-4xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  2
+                  4
                 </button>
                 <button className="bg-slate-300 text-center rounded-lg p-3 w-full overflow-auto text-slate-500 text-4xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
                   3
                 </button>
                 <button className="bg-slate-300 text-center rounded-lg p-3 w-full overflow-auto text-slate-500 text-4xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  4
+                  2
+                </button>
+                <button className="bg-slate-300 text-center rounded-lg p-3 w-full overflow-auto text-slate-500 text-4xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  1
                 </button>
               </div>
               {/* RACK */}

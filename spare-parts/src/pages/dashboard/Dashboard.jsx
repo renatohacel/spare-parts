@@ -23,20 +23,27 @@ export const Dashboard = () => {
               // onChange={handleSearchChange}
             />
           </div>
-          <div className="grid grid-rows-5 p-10 bg-slate-100 rounded-lg">
+          <div className="grid p-10 gap-10 grid-flow-row bg-slate-100 rounded-lg">
             {/* RACK 1 */}
             <div className="row-span-1">
               <p className="mb-1 text-xl text-slate-400 font-mono opacity-70">
                 LINEA A
               </p>
-              <div className="px-3 py-10 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg">
-                <button className="bg-slate-600 rounded-lg p-3 w-full overflow-auto text-white text-2xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+              <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg">
+                <button
+                  className={` rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono  transition-all duration-500  
+                    ${
+                      true
+                        ? "-translate-y-3 bg-teal-600 shadow-2xl shadow-green-700 hover:bg-teal-500 focus:outline-none focus:ring-teal-700 focus:ring-2"
+                        : "bg-slate-600 hover:shadow-2xl hover:bg-slate-400 hover:-translate-y-3"
+                    }`}
+                >
                   RACK A
                 </button>
-                <button className="bg-slate-600 rounded-lg p-3 w-full overflow-auto text-white text-2xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
                   RACK B
                 </button>
-                <button className="bg-slate-600 rounded-lg p-3 w-full overflow-auto text-white text-2xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
                   RACK C
                 </button>
               </div>
@@ -46,30 +53,123 @@ export const Dashboard = () => {
               <p className="mb-1 text-xl text-slate-400 font-mono opacity-70">
                 LINEA B
               </p>
-              <div className="row-span-1 px-3 py-10 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg">
-                <button className="bg-slate-600 rounded-lg p-3 w-full overflow-auto text-white text-2xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+              <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg">
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
                   RACK A
                 </button>
-                <button className="bg-slate-600 rounded-lg p-3 w-full overflow-auto text-white text-2xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
                   RACK B
                 </button>
-                <button className="bg-slate-600 rounded-lg p-3 w-full overflow-auto text-white text-2xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
                   RACK C
                 </button>
               </div>
-              <div className="row-span-1 px-3 py-10 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg">
-                <button className="bg-slate-600 rounded-lg p-3 w-full overflow-auto text-white text-2xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+              <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg mt-1">
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
                   RACK A
                 </button>
-                <button className="bg-slate-600 rounded-lg p-3 w-full overflow-auto text-white text-2xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
                   RACK B
                 </button>
-                <button className="bg-slate-600 rounded-lg p-3 w-full overflow-auto text-white text-2xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
                   RACK C
                 </button>
               </div>
               <p className="mt-2 text-xl text-slate-400 font-mono opacity-70">
                 LINEA C
+              </p>
+            </div>
+            {/* RACK 3 */}
+            <div className="row-span-1">
+              <p className="mb-1 text-xl text-slate-400 font-mono opacity-70">
+                LINEA D
+              </p>
+              <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg">
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK A
+                </button>
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK B
+                </button>
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK C
+                </button>
+              </div>
+              <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg mt-1">
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK A
+                </button>
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK B
+                </button>
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK C
+                </button>
+              </div>
+              <p className="mt-2 text-xl text-slate-400 font-mono opacity-70">
+                LINEA E
+              </p>
+            </div>
+            {/* RACK 4 */}
+            <div className="row-span-1">
+              <p className="mb-1 text-xl text-slate-400 font-mono opacity-70">
+                LINEA F
+              </p>
+              <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg">
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK A
+                </button>
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK B
+                </button>
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK C
+                </button>
+              </div>
+              <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg mt-1">
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK A
+                </button>
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK B
+                </button>
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK C
+                </button>
+              </div>
+              <p className="mt-2 text-xl text-slate-400 font-mono opacity-70">
+                LINEA G
+              </p>
+            </div>
+            {/* RACK 5 */}
+            <div className="row-span-1">
+              <p className="mb-1 text-xl text-slate-400 font-mono opacity-70">
+                LINEA H
+              </p>
+              <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg">
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK A
+                </button>
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK B
+                </button>
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK C
+                </button>
+              </div>
+              <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg mt-1">
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK A
+                </button>
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK B
+                </button>
+                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                  RACK C
+                </button>
+              </div>
+              <p className="mt-2 text-xl text-slate-400 font-mono opacity-70">
+                LINEA I
               </p>
             </div>
           </div>

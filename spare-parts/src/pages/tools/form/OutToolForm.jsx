@@ -186,7 +186,7 @@ export const OutToolForm = () => {
             onKeyDown={onKeyName}
             onInput={onInputName}
             onChange={onReceiverChange}
-            placeholder="Seleccione un receptor"
+            placeholder={selectedReceiver || "Seleccione un receptor"}
             className="react-select-container"
             classNamePrefix="react-select"
           />

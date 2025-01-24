@@ -1,7 +1,7 @@
 import { FaUser } from "react-icons/fa";
 import { MdOutlinePassword } from "react-icons/md";
 import { NvidiaLogo } from "../../components/logos/NvidiaLogo";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react"; // Importar useEffect
 import { AuthContext } from "../../auth/context/AuthContext";
 import Swal from "sweetalert2";
 
@@ -28,6 +28,49 @@ export const LoginPage = () => {
   const [loginForm, setLoginForm] = useState(initialLoginForm);
   const { username, password } = loginForm;
 
+  // Función para evitar el acceso a herramientas de desarrollo
+  useEffect(() => {
+    // Deshabilitar el menú contextual (clic derecho)
+    const handleContextMenu = (e) => {
+      e.preventDefault(); // Bloquear el menú contextual
+    };
+
+    // Deshabilitar atajos de teclado (Ctrl+Shift+I, F12, etc.)
+    const handleKeyDown = (e) => {
+      if (
+        (e.ctrlKey && e.shiftKey && e.key === "I") || // Ctrl+Shift+I
+        (e.ctrlKey && e.shiftKey && e.key === "J") || // Ctrl+Shift+J
+        (e.ctrlKey && e.key === "U") || // Ctrl+U
+        e.key === "F12" // F12
+      ) {
+        e.preventDefault(); // Bloquear la acción
+      }
+    };
+
+    // Detectar si la consola está abierta
+    const handleConsoleOpen = () => {
+      console.clear(); // Limpiar la consola
+    };
+
+    // Verificar si la consola está abierta
+    const interval = setInterval(() => {
+      if (console.clear) {
+        handleConsoleOpen();
+      }
+    }, 1000);
+
+    // Agregar event listeners
+    document.addEventListener("contextmenu", handleContextMenu);
+    document.addEventListener("keydown", handleKeyDown);
+
+    // Limpiar event listeners al desmontar el componente
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener("contextmenu", handleContextMenu);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   const onInputChange = ({ target: { name, value } }) => {
     setLoginForm({
       ...loginForm,
@@ -44,7 +87,7 @@ export const LoginPage = () => {
       });
       return;
     }
-    //implementamos el login
+    // Implementamos el login
     handlerLogin({ username, password });
 
     setLoginForm(initialLoginForm);
