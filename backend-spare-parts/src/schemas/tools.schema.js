@@ -1,5 +1,5 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "../config/dbConfig.js";
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/dbConfig.js';
 
 export const Tools = sequelize.define('tool', {
     id: {
@@ -10,16 +10,15 @@ export const Tools = sequelize.define('tool', {
         unique: true,
     },
     name: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.TEXT, // Cambiar de STRING(255) a TEXT
         allowNull: false,
     },
     status: {
-        type: DataTypes.TINYINT(1),
+        type: DataTypes.INTEGER, // Cambiar de TINYINT(1) a INTEGER
         allowNull: false,
     },
 }, {
     tableName: 'tools',
     timestamps: false,
     freezeTableName: true,
-}
-)
+});

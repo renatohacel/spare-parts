@@ -1,4 +1,4 @@
-import { DataTypes, TINYINT } from 'sequelize'
+import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/dbConfig.js';
 
 export const OutTool = sequelize.define('out_tool', {
@@ -10,7 +10,7 @@ export const OutTool = sequelize.define('out_tool', {
         unique: true,
     },
     responsible: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.TEXT, // Cambiar de STRING(255) a TEXT
         allowNull: false,
     },
     num_employee_responsible: {
@@ -18,7 +18,7 @@ export const OutTool = sequelize.define('out_tool', {
         allowNull: false,
     },
     receiver: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.TEXT, // Cambiar de STRING(255) a TEXT
         allowNull: false,
     },
     num_employee_receiver: {
@@ -26,19 +26,19 @@ export const OutTool = sequelize.define('out_tool', {
         allowNull: false,
     },
     tool: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.TEXT, // Cambiar de STRING(255) a TEXT
         allowNull: false,
     },
     date_out: {
-        type: DataTypes.DATE,
+        type: DataTypes.TEXT, // Cambiar de DATE a TEXT
         allowNull: false
     },
     time_out: {
-        type: DataTypes.TIME,
+        type: DataTypes.TEXT, // Cambiar de TIME a TEXT
         allowNull: false
     },
     area: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.TEXT, // Cambiar de STRING(255) a TEXT
         allowNull: false
     },
     qty: {
@@ -46,26 +46,24 @@ export const OutTool = sequelize.define('out_tool', {
         allowNull: false,
     },
     is_returned: {
-        type: DataTypes.TINYINT(1),
+        type: DataTypes.INTEGER, // Cambiar de TINYINT(1) a INTEGER
         defaultValue: 0,
         allowNull: false
     },
     date_return: {
-        type: DataTypes.DATE,
+        type: DataTypes.TEXT, // Cambiar de DATE a TEXT
         allowNull: true,
     },
     time_return: {
-        type: DataTypes.TIME,
+        type: DataTypes.TEXT, // Cambiar de TIME a TEXT
         allowNull: true,
     },
     comments: {
         type: DataTypes.TEXT,
         allowNull: true,
     }
-
-},
-    {
-        tableName: 'in_outs_tools',
-        timestamps: false,
-        freezeTableName: true,
-    })
+}, {
+    tableName: 'in_outs_tools',
+    timestamps: false,
+    freezeTableName: true,
+});

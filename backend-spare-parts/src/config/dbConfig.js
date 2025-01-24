@@ -1,11 +1,14 @@
 import { Sequelize } from 'sequelize';
+import path from 'path'; // Importar el módulo path para manejar rutas
 
-export const sequelize = new Sequelize('db_spare_parts', 'root', 'calymayor1', {
-    host: 'localhost',
-    dialect: 'mysql',
+// Obtener la ruta absoluta al archivo de la base de datos
+const dbPath = path.resolve('database', 'db_spare_parts.db');
+
+export const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: dbPath, // Ruta absoluta
     logging: false,
 });
-
 
 try {
     await sequelize.authenticate();
@@ -14,6 +17,6 @@ try {
     console.log('---------------------------------------------');
 } catch (error) {
     console.log('-------------------DATABASE------------------');
-    console.error('Unable to connect to the database:', error);
+    console.error('Unable to connect to the database:', error); s
     console.log('---------------------------------------------');
 }

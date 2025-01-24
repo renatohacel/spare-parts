@@ -1,5 +1,4 @@
-
-import { DataTypes } from 'sequelize'
+import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/dbConfig.js';
 
 export const Personal = sequelize.define('personal', {
@@ -11,11 +10,11 @@ export const Personal = sequelize.define('personal', {
         unique: true,
     },
     name: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.TEXT, // Cambiar de STRING(255) a TEXT
         allowNull: false,
     },
     role: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.TEXT, // Cambiar de STRING(100) a TEXT
         allowNull: true,
     },
     num_employee: {
@@ -24,15 +23,15 @@ export const Personal = sequelize.define('personal', {
         unique: true,
     },
     shift: {
-        type: DataTypes.TINYINT,
+        type: DataTypes.INTEGER, // Cambiar de TINYINT a INTEGER
         allowNull: true,
     },
     area: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.TEXT, // Cambiar de STRING(100) a TEXT
         allowNull: true,
     },
     manager: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.TEXT, // Cambiar de STRING(255) a TEXT
         allowNull: true,
     },
 }, {
