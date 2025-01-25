@@ -1,7 +1,9 @@
 import { useContext } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaCheck, FaEdit, FaTrash } from "react-icons/fa";
 import { AuthContext } from "../../../auth/context/AuthContext";
 import { IoIosEye } from "react-icons/io";
+import { Tooltip } from "react-tooltip";
+import { AiOutlineClose } from "react-icons/ai";
 
 export const TableRow = ({
   index,
@@ -45,13 +47,40 @@ export const TableRow = ({
       <td className="p-1 whitespace-nowrap text-sm leading-6 font-normal text-gray-900">
         <div className="flex gap-2">
           {qty_import_total}
-          <button>
+          <button id="imports" data-tooltip-place="top">
             <IoIosEye className="mt-[1px] text-blue-600 hover:text-blue-400 transition-all duration-300" />
           </button>
+          <Tooltip anchorSelect="#imports">See Imports</Tooltip>
         </div>
       </td>
       <td className="p-1 whitespace-nowrap text-sm leading-6 font-normal text-gray-900">
-        {is_dashboard}
+        <div className="flex flex-col items-center">
+          {is_dashboard === 1 ? (
+            <div className="rounded-full bg-green-400 p-2 text-xs bg-opacity-50 text-green-600">
+              <FaCheck />
+            </div>
+          ) : (
+            <>
+              <button
+                id="is-dashboard"
+                data-tooltip-place="top"
+                className="rounded-full transition-all duration-300 bg-orange-400 p-2 text-xs bg-opacity-50 text-orange-600 hover:bg-orange-500 hover:bg-opacity-70 hover:text-orange-300"
+                // onClick={() => {
+                //   handlerCommentsSelected({
+                //     id,
+                //     comments: comments || "",
+                //     tool,
+                //   });
+                // }}
+              >
+                <AiOutlineClose />
+              </button>
+              <Tooltip anchorSelect="#is-dashboard" clickable>
+                Check in dashboard
+              </Tooltip>
+            </>
+          )}
+        </div>
       </td>
       <td className="p-1 whitespace-nowrap text-sm leading-6 font-normal text-gray-900">
         {qty}
@@ -65,9 +94,10 @@ export const TableRow = ({
       <td className="p-1 whitespace-nowrap text-sm leading-6 font-normal text-gray-900">
         <div className="flex gap-2">
           {qty_export_total}
-          <button>
+          <button id="exports" data-tooltip-place="top">
             <IoIosEye className="mt-[1px] text-blue-600 hover:text-blue-400 transition-all duration-300" />
           </button>
+          <Tooltip anchorSelect="#exports">See Exports</Tooltip>
         </div>
       </td>
       <td className="p-1 whitespace-nowrap text-sm leading-6 font-normal text-gray-900">

@@ -1,4 +1,3 @@
-
 import { TbUsersGroup } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 
@@ -12,7 +11,7 @@ export const MenuAdmin = () => {
         <div className="grid mr-5 place-items-center text-xl">
           <TbUsersGroup />
         </div>
-        Usuarios
+        Users
       </NavLink>
     </div>
   );

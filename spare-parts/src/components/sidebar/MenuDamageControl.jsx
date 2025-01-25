@@ -11,7 +11,7 @@ export const MenuDamageControl = () => {
         <div className="grid mr-5 place-items-center text-xl">
           <TbShieldExclamation />
         </div>
-        Control de Daños
+        Damage Control
       </NavLink>
     </div>
   );

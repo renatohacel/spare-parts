@@ -12,7 +12,7 @@ export const MenuInOuts = () => {
         <div className="grid mr-4 place-items-center text-2xl">
           <CgArrowsExchange />
         </div>
-        Ingresos/Salidas
+        In/Outs
       </NavLink>
     </div>
   );

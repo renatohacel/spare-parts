@@ -11,7 +11,7 @@ export const MenuInventario = () => {
         <div className="grid mr-4 place-items-center text-2xl">
           <AiOutlineProduct />
         </div>
-        <p>Inventario</p>
+        <p>Inventory</p>
       </NavLink>
     </div>
   );

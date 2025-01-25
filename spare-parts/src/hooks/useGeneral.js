@@ -27,7 +27,7 @@ export const useGeneral = () => {
             e.key === "e" ||
             e.key === "+" ||
             e.key === "." ||
-            e.key < "1"
+            e.key < "0"
         ) {
             e.preventDefault();
         }
@@ -35,7 +35,7 @@ export const useGeneral = () => {
 
     const onInputQty = (e) => {
         const value = parseInt(e.target.value, 10);
-        if (value < 1) {
+        if (value < 0) {
             e.target.value = "";
         }
     }

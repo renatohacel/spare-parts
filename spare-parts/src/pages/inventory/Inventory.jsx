@@ -11,12 +11,12 @@ export const Inventory = () => {
         <div className="flex flex-row gap-2 text-3xl font-bold">
           <IoIosArrowForward className="mt-[4px]" />
           <AiOutlineProduct className="mt-[4px]" />
-          <h2 className="mb-6">Inventario</h2>
+          <h2 className="mb-6">Inventory</h2>
         </div>
 
         <Card>
           <h2 className="mb-6 font-medium text-xl">
-            Lista de Artículos Registrados
+            List of register inventory
           </h2>
           <TableInventory />
         </Card>

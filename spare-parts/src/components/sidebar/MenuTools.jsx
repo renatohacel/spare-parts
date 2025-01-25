@@ -11,7 +11,7 @@ export const MenuTools = () => {
         <div className="grid mr-5 place-items-center text-xl">
           <LiaToolsSolid />
         </div>
-        Herramientas
+        Tools
       </NavLink>
     </div>
   );

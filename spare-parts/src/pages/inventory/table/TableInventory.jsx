@@ -3,11 +3,20 @@ import { AuthContext } from "../../../auth/context/AuthContext";
 import { DashboardContext } from "../../../context/DashboardContext";
 import { TableRow } from "./TableRow";
 import { OrbitProgress } from "react-loading-indicators";
+import { Modal } from "../../../components/modal/Modal";
+import { InventoryForm } from "../form/InventoryForm";
 
 export const TableInventory = () => {
   const { login } = useContext(AuthContext);
   const { inventoryHook } = useContext(DashboardContext);
-  const { inventory, isLoading, getInventory } = inventoryHook;
+  const {
+    inventory,
+    isLoading,
+    getInventory,
+    handlerOpenFormInventory,
+    visibleForm,
+    editing,
+  } = inventoryHook;
 
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -71,9 +80,9 @@ export const TableInventory = () => {
           {login.user.isAdmin === 1 && (
             <button
               className="shadow text-slate-200 text-center text-sm bg-teal-600 mb-3 p-2 rounded-lg hover:bg-teal-700 transition-all duration-300"
-              //    onClick={handlerOpenForminventory}
+              onClick={handlerOpenFormInventory}
             >
-              Registrar Material
+              Register Material
             </button>
           )}
         </div>
@@ -84,7 +93,7 @@ export const TableInventory = () => {
             value={ubicationFilter}
             onChange={handleUbicationChange}
           >
-            <option value="Ubication">Ubicación</option>
+            <option value="Ubication">Ubication</option>
             <option value="Integración">Integración</option>
             <option value="MFG">MFG</option>
             <option value="Procesos">Procesos</option>
@@ -96,7 +105,7 @@ export const TableInventory = () => {
 
           <input
             className="mb-3 p-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
-            placeholder="Buscar..."
+            placeholder="Search..."
             type="text"
             value={searchText}
             onChange={handleSearchChange}
@@ -116,7 +125,7 @@ export const TableInventory = () => {
                 "Suplier PN",
                 "Qty. Import Total",
                 "In Dashboard",
-                "Quantity",
+                "Quantity in stock",
                 "Ubication",
                 "Damages",
                 "Qty. Export Total",
@@ -136,7 +145,7 @@ export const TableInventory = () => {
           <tbody className="divide-y divide-gray-300">
             {isLoading ? (
               <tr>
-                <td colSpan={7} className="p-5 text-center">
+                <td colSpan={13} className="p-5 text-center">
                   <OrbitProgress
                     color="#32cd32"
                     size="large"
@@ -166,11 +175,11 @@ export const TableInventory = () => {
           </tbody>
         </table>
       </div>
-      {/* {visibleForm && (
-         <Modal title={editing ? "Editar inventory" : "Registrar inventory"}>
-           <inventoryForm />
-         </Modal>
-       )} */}
+      {visibleForm && (
+        <Modal title={editing ? "Edit Material" : "Register Material"}>
+          <InventoryForm />
+        </Modal>
+      )}
     </>
   );
 };
