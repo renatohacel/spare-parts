@@ -10,3 +10,13 @@ export const getAllInventory = async () => {
         return error.response
     }
 }
+
+export const createMaterial = async (input) => {
+    try {
+        const response = await axios.post(BASE_URL, input, { withCredentials: true })
+        return response;
+    } catch (error) {
+        console.error('Error response createMaterial:', error.response);
+        return error.response;
+    }
+} 

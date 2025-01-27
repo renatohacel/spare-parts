@@ -14,11 +14,6 @@ export const Inventory = sequelize.define('inventory', {
         allowNull: false,
         unique: true,
     },
-    id_feature: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-        unique: true,
-    },
     image: {
         type: DataTypes.TEXT,
         unique: true,

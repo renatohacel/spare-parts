@@ -16,6 +16,8 @@ import { inventoryRouter } from "./routes/inventory.router.js";
 
 const app = express();
 
+app.use('/uploads', express.static('uploads'))
+
 app.disable("x-powered-by");
 
 //MIDDLEWARES

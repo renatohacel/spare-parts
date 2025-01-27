@@ -84,13 +84,13 @@ export const useOutTools = () => {
                     handlerCloseFormOutTool();
                     Toast.fire({
                         icon: "success",
-                        title: "Préstamo realizado con éxito",
+                        title: "Préstamo editado con éxito",
                     });
                 } else {
                     handlerCloseFormOutTool()
                     Toast.fire({
                         icon: "success",
-                        title: "Préstamo editado con éxito",
+                        title: "Préstamo realizado con éxito",
                     });
                 }
 

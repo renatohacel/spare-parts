@@ -38,13 +38,13 @@ export const Dashboard = () => {
                         : "bg-slate-600 hover:shadow-2xl hover:bg-slate-400 hover:-translate-y-3"
                     }`}
                 >
-                  RACK A
+                  RACK 1
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK B
+                  RACK 2
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK C
+                  RACK 3
                 </button>
               </div>
             </div>
@@ -55,24 +55,24 @@ export const Dashboard = () => {
               </p>
               <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg">
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK A
+                  RACK 4
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK B
+                  RACK 5
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK C
+                  RACK 6
                 </button>
               </div>
               <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg mt-1">
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK A
+                  RACK 7
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK B
+                  RACK 8
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK C
+                  RACK 9
                 </button>
               </div>
               <p className="mt-2 text-xl text-slate-400 font-mono opacity-70">
@@ -86,24 +86,24 @@ export const Dashboard = () => {
               </p>
               <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg">
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK A
+                  RACK 10
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK B
+                  RACK 11
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK C
+                  RACK 12
                 </button>
               </div>
               <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg mt-1">
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK A
+                  RACK 13
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK B
+                  RACK 14
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK C
+                  RACK 15
                 </button>
               </div>
               <p className="mt-2 text-xl text-slate-400 font-mono opacity-70">
@@ -117,24 +117,24 @@ export const Dashboard = () => {
               </p>
               <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg">
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK A
+                  RACK 16
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK B
+                  RACK 17
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK C
+                  RACK 18
                 </button>
               </div>
               <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg mt-1">
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK A
+                  RACK 19
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK B
+                  RACK 20
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK C
+                  RACK 21
                 </button>
               </div>
               <p className="mt-2 text-xl text-slate-400 font-mono opacity-70">
@@ -148,24 +148,24 @@ export const Dashboard = () => {
               </p>
               <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg">
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK A
+                  RACK 22
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK B
+                  RACK 23
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK C
+                  RACK 24
                 </button>
               </div>
               <div className="px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg mt-1">
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK A
+                  RACK 25
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK B
+                  RACK 26
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
-                  RACK C
+                  RACK 27
                 </button>
               </div>
               <p className="mt-2 text-xl text-slate-400 font-mono opacity-70">

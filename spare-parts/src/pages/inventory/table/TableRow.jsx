@@ -30,7 +30,21 @@ export const TableRow = ({
           index === records.length - 1 && "rounded-bl-xl"
         }`}
       >
-        {image}
+        {image ? (
+          <img
+            src={`http://localhost:3000/uploads/${image}`}
+            alt={`img_${name}`}
+            style={{ width: "100px", height: "auto" }}
+            className="mx-auto"
+          />
+        ) : (
+          <img
+            src={`http://localhost:3000/uploads/no-image.webp`}
+            alt={`no_img`}
+            style={{ width: "100px", height: "auto" }}
+            className="mx-auto"
+          />
+        )}
       </td>
       <td className="p-1 whitespace-nowrap text-sm leading-6 font-normal text-gray-900">
         {id_feature}

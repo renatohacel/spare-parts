@@ -1,6 +1,6 @@
 import { useReducer, useState } from "react"
 import { inventoryReducer } from "../reducers/inventoryReducer"
-import { getAllInventory } from "../pages/inventory/services/inventoryService";
+import { createMaterial, getAllInventory } from "../pages/inventory/services/inventoryService";
 import Swal from "sweetalert2";
 
 
@@ -29,7 +29,6 @@ const initialFormInventory = {
     part_num: '',
     suplier_part_num: '',
     qty_import_total: '',
-    qty: '',
     ubication: '',
     comments: '',
 }
@@ -58,9 +57,65 @@ export const useInventory = () => {
         }
     }
 
-    const handlerAddMaterial = async () => {
+    const handlerAddMaterial = async (material) => {
 
-    }
+        try {
+            const id = parseInt(material.get('id'), 10);
+            console.log('ID:', id);
+
+            const response = id === 0
+                ? await createMaterial(material)
+                : 'UPDATE';
+
+            console.log(response);
+
+            if (response && response.status === 201) {
+                dispatch({
+                    type: 'addInventory',
+                    payload: response.data.result
+                });
+
+                if (id !== 0) {
+                    handlerCloseFormInventory();
+                    Toast.fire({
+                        icon: "success",
+                        title: "Material updated successfully.",
+                    });
+                } else {
+                    handlerCloseFormInventory();
+                    Toast.fire({
+                        icon: "success",
+                        title: "Material registered successfully.",
+                    });
+                }
+            } else if (response && response.status === 409) {
+                const errorMessage = response.data.error;
+                switch (errorMessage) {
+                    case 'id_feature_exists':
+                        setErrors({ id_feature: 'The ID Feature already exists' });
+                        break;
+                    case 'name_exists':
+                        setErrors({ name: 'The Name already exists' });
+                        break;
+                    case 'part_num_exists':
+                        setErrors({ part_num: 'The Part Number already exists' });
+                        break;
+                    case 'suplier_part_num_exists':
+                        setErrors({ suplier_part_num: 'The Suplier Part Number already exists' });
+                        break;
+                    default:
+                        setErrors({ other: 'Error desconocido' });
+                        break;
+                }
+            }
+        } catch (error) {
+            console.error('Error in handlerAddOutTool:', error);
+            Toast.fire({
+                icon: "error",
+                title: "Error al registrar material",
+            });
+        }
+    };
 
     const handlerMaterialSelected = (material) => {
         setEditing(true);
@@ -77,6 +132,8 @@ export const useInventory = () => {
 
     const handlerCloseFormInventory = () => {
         setVisibleForm(false);
+        setMaterialSelected(initialFormInventory);
+        setErrors({});
     }
 
 
@@ -92,5 +149,6 @@ export const useInventory = () => {
         getInventory,
         handlerOpenFormInventory,
         handlerCloseFormInventory,
+        handlerAddMaterial,
     }
 }
