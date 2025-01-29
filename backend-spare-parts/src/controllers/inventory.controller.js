@@ -85,4 +85,19 @@ export class InventoryController {
         }
     }
 
+
+    static async delete(req, res) {
+        const { id } = req.params
+        try {
+            const result = await InventoryModel.delete({ id });
+            if (!result) {
+                return res.status(404).json({ message: 'Material not found' })
+            }
+            return res.send({ message: 'Material deleted successfully' })
+        } catch (error) {
+            console.log(error)
+            return res.status(500).sned({ message: 'Error en el servidor' });
+        }
+    }
+
 }

@@ -8,3 +8,6 @@ inventoryRouter.get('/', InventoryController.getAll);
 
 //create
 inventoryRouter.post('/', upload.single('image'), InventoryController.create);
+
+//delete
+inventoryRouter.delete('/:id', InventoryController.delete)

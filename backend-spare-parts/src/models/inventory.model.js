@@ -37,7 +37,20 @@ export class InventoryModel {
             //CREAR IMPORTACION
 
         } catch (error) {
+            console.log('Error in InventoryModel.create:', error);
+            throw error;
+        }
+    }
 
+    static async delete({ id }) {
+        try {
+            const material = await Inventory.findByPk(id)
+            if (!material) return false;
+
+            return true
+        } catch (error) {
+            console.log('Error in InventoryModel.delete:', error);
+            throw error;
         }
     }
 }
