@@ -15,9 +15,7 @@ export const Inventory = () => {
         </div>
 
         <Card>
-          <h2 className="mb-6 font-medium text-xl">
-            List of register inventory
-          </h2>
+          <h2 className="mb-6 font-medium text-xl">Inventory List</h2>
           <TableInventory />
         </Card>
       </main>

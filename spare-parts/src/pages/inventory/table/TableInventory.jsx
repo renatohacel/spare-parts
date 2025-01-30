@@ -5,6 +5,7 @@ import { TableRow } from "./TableRow";
 import { OrbitProgress } from "react-loading-indicators";
 import { Modal } from "../../../components/modal/Modal";
 import { InventoryForm } from "../form/InventoryForm";
+import { ImageModal } from "../../../components/modal/ImageModal";
 
 export const TableInventory = () => {
   const { login } = useContext(AuthContext);
@@ -16,11 +17,12 @@ export const TableInventory = () => {
     handlerOpenFormInventory,
     visibleForm,
     editing,
+    imageOpen,
+    imageSelected,
   } = inventoryHook;
 
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [ubicationFilter, setUbicationFilter] = useState("Ubication");
 
   useEffect(() => {
     getInventory();
@@ -28,18 +30,10 @@ export const TableInventory = () => {
 
   useEffect(() => {
     applyFilters();
-  }, [inventory, searchText, ubicationFilter]);
+  }, [inventory, searchText]);
 
   const applyFilters = () => {
     let records = [...inventory];
-
-    // Filtrar por ubication
-    if (ubicationFilter !== "Ubication") {
-      records = records.filter(
-        (record) =>
-          record.ubication?.toLowerCase() === ubicationFilter.toLowerCase()
-      );
-    }
 
     // Filtrar por texto
     if (searchText.trim() !== "") {
@@ -69,10 +63,6 @@ export const TableInventory = () => {
     setSearchText(e.target.value);
   };
 
-  const handleUbicationChange = (e) => {
-    setUbicationFilter(e.target.value);
-  };
-
   return (
     <>
       <div className="flex justify-between mb-2">
@@ -87,22 +77,6 @@ export const TableInventory = () => {
           )}
         </div>
         <div className="flex items-end gap-3">
-          <select
-            className="mb-3 p-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
-            name="area_filter"
-            value={ubicationFilter}
-            onChange={handleUbicationChange}
-          >
-            <option value="Ubication">Ubication</option>
-            <option value="Integración">Integración</option>
-            <option value="MFG">MFG</option>
-            <option value="Procesos">Procesos</option>
-            <option value="QA">QA</option>
-            <option value="l1 - l3">L1 - L3</option>
-            <option value="Desensamble">Desensamble</option>
-            <option value="FA">FA</option>
-          </select>
-
           <input
             className="mb-3 p-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
             placeholder="Search..."
@@ -180,6 +154,8 @@ export const TableInventory = () => {
           <InventoryForm />
         </Modal>
       )}
+
+      {imageOpen && <ImageModal image={imageSelected} />}
     </>
   );
 };

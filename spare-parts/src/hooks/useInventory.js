@@ -1,6 +1,6 @@
 import { useReducer, useState } from "react"
 import { inventoryReducer } from "../reducers/inventoryReducer"
-import { createMaterial, getAllInventory } from "../pages/inventory/services/inventoryService";
+import { checkDashboard, createMaterial, deleteMaterial, getAllInventory, updateMaterial } from "../pages/inventory/services/inventoryService";
 import Swal from "sweetalert2";
 
 
@@ -41,6 +41,8 @@ export const useInventory = () => {
     const [editing, setEditing] = useState(false);
     const [errors, setErrors] = useState({});
     const [materialSelected, setMaterialSelected] = useState(initialFormInventory);
+    const [imageOpen, setImageOpen] = useState(false);
+    const [imageSelected, setImageSelected] = useState('')
 
     const getInventory = async () => {
         try {
@@ -65,13 +67,11 @@ export const useInventory = () => {
 
             const response = id === 0
                 ? await createMaterial(material)
-                : 'UPDATE';
-
-            console.log(response);
+                : await updateMaterial(material);
 
             if (response && response.status === 201) {
                 dispatch({
-                    type: 'addInventory',
+                    type: id === 0 ? 'addInventory' : 'updateInventory',
                     payload: response.data.result
                 });
 
@@ -117,6 +117,52 @@ export const useInventory = () => {
         }
     };
 
+    const handlerDeleteMaterial = async (id) => {
+        ToastDeleted.fire({
+            title: "¿Está seguro de eliminar el material?",
+            text: "Cuidado! Esta acción no se puede deshacer",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, eliminar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteMaterial(id);
+                dispatch({
+                    type: "deleteInventory",
+                    payload: id,
+                });
+                Toast.fire({
+                    title: "Material eliminado correctamente",
+                    icon: "success"
+                });
+            }
+        });
+    }
+
+    const handlerCheckDashboard = async (id) => {
+        try {
+            const response = await checkDashboard(id)
+            if (response && response.status === 201) {
+                dispatch({
+                    type: 'updateInventory',
+                    payload: response.data.result
+                })
+            } else {
+                throw new Error('Not Found');
+            }
+        } catch (error) {
+            console.error('Error in handlerCheckReturn:', error);
+            Toast.fire({
+                icon: "error",
+                title: "Error check_dasboard",
+            });
+        }
+
+    }
+
+
     const handlerMaterialSelected = (material) => {
         setEditing(true);
         setVisibleForm(true);
@@ -136,6 +182,16 @@ export const useInventory = () => {
         setErrors({});
     }
 
+    const handlerImageOpen = (image) => {
+        setImageOpen(true)
+        setImageSelected(image)
+    }
+
+    const handlerImageClose = () => {
+        setImageOpen(false)
+        setImageSelected('')
+    }
+
 
     return {
         inventory,
@@ -145,10 +201,17 @@ export const useInventory = () => {
         materialSelected,
         errors,
         initialFormInventory,
+        imageOpen,
+        imageSelected,
 
         getInventory,
         handlerOpenFormInventory,
         handlerCloseFormInventory,
         handlerAddMaterial,
+        handlerDeleteMaterial,
+        handlerMaterialSelected,
+        handlerImageOpen,
+        handlerImageClose,
+        handlerCheckDashboard,
     }
 }

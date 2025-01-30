@@ -35,7 +35,16 @@ export const InventoryForm = () => {
     qty_import_total,
     ubication,
     comments,
+
+    //edit
+    qty,
+    is_dashboard,
+    damages,
+    qty_export_total,
+    image,
   } = inventoryForm;
+
+  const [optionalField, setOptionalField] = useState(false);
 
   useEffect(() => {
     setInventoryForm({ ...materialSelected });
@@ -48,18 +57,37 @@ export const InventoryForm = () => {
   const onImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setInventoryForm({ ...inventoryForm, image: file });
+      const allowedTypes = ["image/webp", "image/jpeg", "image/png"];
+
+      if (allowedTypes.includes(file.type)) {
+        setInventoryForm({ ...inventoryForm, image: file });
+      } else {
+        Toast.fire({
+          icon: "warning",
+          title: "Por favor, sube una imagen en formato .webp, .jpg, .png, etc",
+        });
+        e.target.value = "";
+      }
     }
   };
 
   const onSubit = (e) => {
     e.preventDefault();
-    if (!id_feature || !name || !part_num || !qty_import_total || !ubication) {
-      Toast.fire({
-        icon: "warning",
-        title: "Todos los campos son obligatorios",
-      });
-      return;
+    if (id === 0) {
+      if (
+        !id_feature ||
+        !name ||
+        !part_num ||
+        !qty_import_total ||
+        !ubication
+      ) {
+        Toast.fire({
+          icon: "warning",
+          title: "Todos los campos son obligatorios",
+        });
+        setOptionalField(true);
+        return;
+      }
     }
 
     const formData = new FormData();
@@ -70,14 +98,20 @@ export const InventoryForm = () => {
     formData.append("part_num", part_num);
     formData.append("suplier_part_num", suplier_part_num || "");
     formData.append("qty_import_total", qty_import_total);
-    formData.append("qty", qty_import_total);
+    if (id === 0) {
+      formData.append("qty", qty_import_total);
+    }
     formData.append("ubication", ubication);
     formData.append("comments", comments || "");
     if (inventoryForm.image) {
       formData.append("image", inventoryForm.image);
     }
-
-    console.log(formData);
+    if (id !== 0) {
+      formData.append("qty", qty);
+      formData.append("qty_export_total", qty_export_total);
+      formData.append("damages", damages);
+      formData.append("is_dashboard", is_dashboard);
+    }
     handlerAddMaterial(formData);
   };
 
@@ -140,6 +174,25 @@ export const InventoryForm = () => {
             value={qty_import_total}
           />
         </div>
+        {id !== 0 && (
+          <div className="flex flex-col p-1">
+            <label
+              className="text-slate-400 font-medium mb-1 whitespace-nowrap"
+              htmlFor="qty_export_total"
+            >
+              Qty. Export
+            </label>
+            <input
+              className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
+              name="qty_export_total"
+              type="number"
+              onKeyDown={onKeyQty}
+              onInput={onInputQty}
+              onChange={onInputChange}
+              value={qty_export_total}
+            />
+          </div>
+        )}
       </div>
 
       {/* COL 2 */}
@@ -176,6 +229,9 @@ export const InventoryForm = () => {
             onChange={onInputChange}
             value={suplier_part_num}
           />
+          <p className="text-slate-400 italic" style={{ fontSize: "0.9rem" }}>
+            {optionalField && "This field is optional"}
+          </p>
           <p className="text-red-500 italic" style={{ fontSize: "0.9rem" }}>
             {errors?.suplier_part_num}
           </p>
@@ -194,7 +250,29 @@ export const InventoryForm = () => {
             onChange={onInputChange}
             value={comments}
           />
+          <p className="text-slate-400 italic" style={{ fontSize: "0.9rem" }}>
+            {optionalField && "This field is optional"}
+          </p>
         </div>
+        {id !== 0 && (
+          <div className="flex flex-col p-1">
+            <label
+              className="text-slate-400 font-medium mb-1 whitespace-nowrap"
+              htmlFor="damages"
+            >
+              Damages
+            </label>
+            <input
+              className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
+              name="damages"
+              type="number"
+              onKeyDown={onKeyQty}
+              onInput={onInputQty}
+              onChange={onInputChange}
+              value={damages}
+            />
+          </div>
+        )}
       </div>
       {/* COL 3 */}
       <div>
@@ -231,6 +309,44 @@ export const InventoryForm = () => {
             value={ubication}
           />
         </div>
+        {id !== 0 && (
+          <>
+            <div className="flex flex-col p-1">
+              <label
+                className="text-slate-400 font-medium mb-1 whitespace-nowrap"
+                htmlFor="qty"
+              >
+                Quantity
+              </label>
+              <input
+                className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
+                name="qty"
+                type="number"
+                onKeyDown={onKeyQty}
+                onInput={onInputQty}
+                onChange={onInputChange}
+                value={qty}
+              />
+            </div>
+            <div className="flex flex-col p-1">
+              <label
+                className="text-slate-400 font-medium mb-1 whitespace-nowrap"
+                htmlFor="is_dashboard"
+              >
+                Register in dashboard
+              </label>
+              <select
+                name="is_dashboard"
+                value={is_dashboard}
+                onChange={onInputChange}
+                className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
+              >
+                <option value={0}>No</option>
+                <option value={1}>Yes</option>
+              </select>
+            </div>
+          </>
+        )}
       </div>
       <div className="flex gap-3 w-full overflow-auto mt-4 p-1">
         {id === 0 ? (
