@@ -24,13 +24,14 @@ export const TableRow = ({
   comments,
 }) => {
   const { login } = useContext(AuthContext);
-  const { inventoryHook } = useContext(DashboardContext);
+  const { inventoryHook, importsHook } = useContext(DashboardContext);
   const {
     handlerDeleteMaterial,
     handlerMaterialSelected,
     handlerImageOpen,
     handlerCheckDashboard,
   } = inventoryHook;
+  const { handlerImportSelected } = importsHook;
   return (
     <>
       <tr className="bg-white transition-all duration-500 hover:bg-slate-100 text-center">
@@ -77,7 +78,13 @@ export const TableRow = ({
         <td className="p-1 whitespace-nowrap text-sm leading-6 font-normal text-gray-900">
           <div className="flex gap-2">
             {qty_import_total}
-            <button id="imports" data-tooltip-place="top">
+            <button
+              id="imports"
+              data-tooltip-place="top"
+              onClick={() => {
+                handlerImportSelected(part_num);
+              }}
+            >
               <IoIosEye className="mt-[1px] text-blue-600 hover:text-blue-400 transition-all duration-300" />
             </button>
             <Tooltip anchorSelect="#imports">See Imports</Tooltip>

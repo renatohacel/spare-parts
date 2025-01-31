@@ -1,59 +1,39 @@
 import { useContext, useEffect, useState } from "react";
+import { IoAddOutline } from "react-icons/io5";
 import { AuthContext } from "../../../auth/context/AuthContext";
 import { DashboardContext } from "../../../context/DashboardContext";
 import { TableRow } from "./TableRow";
-import { OrbitProgress } from "react-loading-indicators";
-import { Modal } from "../../../components/modal/Modal";
-import { InventoryForm } from "../form/InventoryForm";
-import { ImageModal } from "../../../components/modal/ImageModal";
-import { TableImports } from "../imports/TableImports";
 
-export const TableInventory = () => {
+export const TableImports = () => {
   const { login } = useContext(AuthContext);
-  const { inventoryHook, importsHook } = useContext(DashboardContext);
+  const { importsHook } = useContext(DashboardContext);
   const {
-    inventory,
+    imports,
+    partNumSelected,
+    getImportsByName,
+    handlerCloseTableImports,
     isLoading,
-    getInventory,
-    handlerOpenFormInventory,
-    visibleForm,
-    editing,
-    imageOpen,
-    imageSelected,
-  } = inventoryHook;
-
-  const { visibleImports } = importsHook;
+  } = importsHook;
 
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    getInventory();
+    getImportsByName(partNumSelected);
   }, []);
 
   useEffect(() => {
     applyFilters();
-  }, [inventory, searchText]);
+  }, [imports, searchText]);
 
   const applyFilters = () => {
-    let records = [...inventory];
+    let records = [...imports];
 
     // Filtrar por texto
     if (searchText.trim() !== "") {
       const lowerCaseText = searchText.toLowerCase();
       records = records.filter((record) =>
-        [
-          "id_feature",
-          "name",
-          "part_num",
-          "suplier_part_num",
-          "qty_import_total",
-          "qty",
-          "ubication",
-          "damages",
-          "qty_export_total",
-          "comments",
-        ].some((key) =>
+        ["name"].some((key) =>
           record[key]?.toString().toLowerCase().includes(lowerCaseText)
         )
       );
@@ -65,24 +45,23 @@ export const TableInventory = () => {
   const handleSearchChange = (e) => {
     setSearchText(e.target.value);
   };
-
   return (
     <>
       <div className="flex justify-between mb-2">
         <div>
           {login.user.isAdmin === 1 && (
             <button
-              className="shadow text-slate-200 text-center text-sm bg-teal-600 mb-3 p-2 rounded-lg hover:bg-teal-700 transition-all duration-300"
-              onClick={handlerOpenFormInventory}
+              className="shadow text-slate-200 text-center text-sm bg-teal-600 mb-3 p-2 rounded-lg hover:bg-teal-700 transition-all duration-300 mr-1 mt-1"
+              //   onClick={handlerOpenFormTable}
             >
-              Register Material
+              <IoAddOutline />
             </button>
           )}
         </div>
         <div className="flex items-end gap-3">
           <input
             className="mb-3 p-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
-            placeholder="Search..."
+            placeholder="Buscar..."
             type="text"
             value={searchText}
             onChange={handleSearchChange}
@@ -93,36 +72,38 @@ export const TableInventory = () => {
         <table className="min-w-full w-full rounded-xl">
           <thead className="bg-slate-200 divide-x divide-slate-200 text-center sticky top-0">
             <tr>
-              {/* Column Headers */}
-              {[
-                "Image",
-                "ID Feature",
-                "Name",
-                "Part Num",
-                "Suplier PN",
-                "Qty. Import Total",
-                "In Dashboard",
-                "Quantity in stock",
-                "Ubication",
-                "Damages",
-                "Qty. Export Total",
-                "Comments",
-                login.user.isAdmin === 1 && "Actions",
-              ].map((header, index) => (
+              <th
+                scope="col"
+                className="p-2 text-sm leading-6 font-semibold text-slate-600 capitalize bg-slate-300 bg-opacity-45 hover:bg-slate-200"
+              >
+                Part Number
+              </th>
+              <th
+                scope="col"
+                className="p-2 text-sm leading-6 font-semibold text-slate-600 capitalize bg-slate-300 bg-opacity-45 hover:bg-slate-200"
+              >
+                Quantity
+              </th>
+              <th
+                scope="col"
+                className="p-2 text-sm leading-6 font-semibold text-slate-600 capitalize bg-slate-300 bg-opacity-45 hover:bg-slate-200"
+              >
+                Date
+              </th>
+              {login.user.isAdmin === 1 && (
                 <th
-                  key={index}
                   scope="col"
                   className="p-2 text-sm leading-6 font-semibold text-slate-600 capitalize bg-slate-300 bg-opacity-45 hover:bg-slate-200"
                 >
-                  {header}
+                  Actions
                 </th>
-              ))}
+              )}
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-300">
             {isLoading ? (
               <tr>
-                <td colSpan={13} className="p-5 text-center">
+                <td colSpan={5} className="p-5 text-center">
                   <OrbitProgress
                     color="#32cd32"
                     size="large"
@@ -144,27 +125,28 @@ export const TableInventory = () => {
               })
             ) : (
               <tr>
-                <td colSpan={13} className="p-5 text-center">
-                  No hay inventory registrado
+                <td colSpan={5} className="p-5 text-center">
+                  Not imports registered
                 </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
-      {visibleForm && (
-        <Modal title={editing ? "Edit Material" : "Register Material"}>
-          <InventoryForm />
+      <div className="flex flex-col items-end">
+        <button
+          type="button"
+          className="shadow text-slate-400 text-center text-sm border border-gray-300 p-2 rounded-lg hover:bg-gray-400 hover:text-gray-100 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50 mt-1"
+          onClick={handlerCloseTableImports}
+        >
+          Cancelar
+        </button>
+      </div>
+      {/* {visibleFormTable && (
+        <Modal title={editing ? "Editar Herramienta" : "Registrar Herramienta"}>
+          <ToolForm />
         </Modal>
-      )}
-
-      {imageOpen && <ImageModal image={imageSelected} />}
-
-      {visibleImports && (
-        <Modal title={"Imports"}>
-          <TableImports />
-        </Modal>
-      )}
+      )} */}
     </>
   );
 };
