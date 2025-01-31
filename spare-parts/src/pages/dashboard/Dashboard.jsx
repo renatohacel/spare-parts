@@ -1,8 +1,22 @@
+import React, { useRef, useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { Card } from "../../components/templates/Card";
 import { FaHome } from "react-icons/fa";
 
 export const Dashboard = () => {
+  // Crear una referencia para el botón "RACK 23"
+  const [found, setFound] = useState(false);
+  const rack23Ref = useRef(null);
+
+  // Enfocar y desplazar la pantalla hacia el botón "RACK 23" al iniciar
+  useEffect(() => {
+    if (rack23Ref.current) {
+      rack23Ref.current.focus(); // Enfocar el botón
+      rack23Ref.current.scrollIntoView({ behavior: "smooth", block: "center" }); // Desplazar la pantalla hacia el botón
+      setFound(true);
+    }
+  }, []);
+
   return (
     <>
       {/* Contenido principal */}
@@ -33,7 +47,7 @@ export const Dashboard = () => {
                 <button
                   className={` rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono  transition-all duration-500  
                     ${
-                      true
+                      false
                         ? "-translate-y-3 bg-teal-600 shadow-2xl shadow-green-700 hover:bg-teal-500 focus:outline-none focus:ring-teal-700 focus:ring-2"
                         : "bg-slate-600 hover:shadow-2xl hover:bg-slate-400 hover:-translate-y-3"
                     }`}
@@ -150,7 +164,15 @@ export const Dashboard = () => {
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
                   RACK 22
                 </button>
-                <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">
+                <button
+                  ref={rack23Ref} // Asignar la referencia al botón "RACK 23"
+                  className={` rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono  transition-all duration-500  
+                    ${
+                      found
+                        ? "-translate-y-3 bg-teal-600 shadow-2xl shadow-green-700 hover:bg-teal-500 focus:outline-none focus:ring-teal-700 focus:ring-2"
+                        : "bg-slate-600 hover:shadow-2xl hover:bg-slate-400 hover:-translate-y-3"
+                    }`}
+                >
                   RACK 23
                 </button>
                 <button className="bg-slate-600 rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono hover:shadow-2xl hover:bg-slate-400 transition-all duration-500 hover:-translate-y-3">

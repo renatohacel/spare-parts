@@ -2,6 +2,7 @@ import { Inventory } from "../schemas/inventory.schema.js";
 import { Op } from 'sequelize'
 import fs from 'node:fs'
 import path from 'node:path'
+import { Imports } from "../schemas/imports.schema.js";
 
 export class InventoryModel {
     static async getAll() {
@@ -34,9 +35,17 @@ export class InventoryModel {
 
             const newMaterial = await Inventory.create(input)
 
-            return newMaterial
-
             //CREAR IMPORTACION
+            const date = new Date();
+            const formattedDate = date.toISOString().split("T")[0]; // YYYY-MM-DD
+
+            await Imports.create({
+                qty: input.qty_import_total,
+                part_num: input.part_num,
+                date: formattedDate,
+            })
+
+            return newMaterial
 
         } catch (error) {
             console.log('Error in InventoryModel.create:', error);
@@ -92,7 +101,16 @@ export class InventoryModel {
                 if (existSPN) return { error: 'suplier_part_num_exists' }
             }
 
+
+            //ACTUALIZAR IMPORTS
+            await Imports.update(
+                { part_num: input.part_num },
+                { where: { part_num: material.part_num } }
+            );
+
             const updatedMaterial = await material.update(input)
+
+
             return updatedMaterial;
         } catch (error) {
             console.log('Error in InventoryModel.update:', error);

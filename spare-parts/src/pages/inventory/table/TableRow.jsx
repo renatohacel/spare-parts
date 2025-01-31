@@ -31,7 +31,7 @@ export const TableRow = ({
     handlerImageOpen,
     handlerCheckDashboard,
   } = inventoryHook;
-  const { handlerImportSelected } = importsHook;
+  const { handlerPartNumSelected } = importsHook;
   return (
     <>
       <tr className="bg-white transition-all duration-500 hover:bg-slate-100 text-center">
@@ -47,7 +47,7 @@ export const TableRow = ({
                 alt={`img_${name}`}
                 id="image"
                 style={{ width: "100px", height: "auto" }}
-                className="mx-auto cursor-pointer hover:shadow-md"
+                className="mx-auto cursor-pointer rounded-lg hover:shadow-md"
                 onClick={() => {
                   handlerImageOpen(`http://localhost:3000/uploads/${image}`);
                 }}
@@ -82,7 +82,7 @@ export const TableRow = ({
               id="imports"
               data-tooltip-place="top"
               onClick={() => {
-                handlerImportSelected(part_num);
+                handlerPartNumSelected(part_num);
               }}
             >
               <IoIosEye className="mt-[1px] text-blue-600 hover:text-blue-400 transition-all duration-300" />

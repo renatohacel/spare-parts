@@ -22,14 +22,14 @@ export const TableInventory = () => {
     imageSelected,
   } = inventoryHook;
 
-  const { visibleImports } = importsHook;
+  const { visibleImports, partNumSelected, sendImport } = importsHook;
 
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     getInventory();
-  }, []);
+  }, [sendImport]);
 
   useEffect(() => {
     applyFilters();
@@ -161,7 +161,14 @@ export const TableInventory = () => {
       {imageOpen && <ImageModal image={imageSelected} />}
 
       {visibleImports && (
-        <Modal title={"Imports"}>
+        <Modal
+          title={
+            <>
+              Imports of{" "}
+              <span className="text-teal-600">{partNumSelected}</span>
+            </>
+          }
+        >
           <TableImports />
         </Modal>
       )}

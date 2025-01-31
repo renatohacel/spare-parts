@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../../../auth/context/AuthContext";
 import { DashboardContext } from "../../../context/DashboardContext";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 export const TableRow = ({
   index,
@@ -12,6 +13,8 @@ export const TableRow = ({
   supplier,
 }) => {
   const { login } = useContext(AuthContext);
+  const { importsHook } = useContext(DashboardContext);
+  const { handlerImportSelected, handlerDeleteImport } = importsHook;
   return (
     <tr className="bg-white transition-all duration-500 hover:bg-slate-100 text-center">
       <td
@@ -36,15 +39,15 @@ export const TableRow = ({
           <div className="flex items-center justify-center gap-1">
             <button
               className="p-2 rounded-full group transition-all duration-500 flex items-center"
-              //   onClick={() => {
-              //     handlerToolSelected({ id, name });
-              //   }}
+              onClick={() => {
+                handlerImportSelected({ id, qty, date });
+              }}
             >
               <FaEdit className="text-yellow-500 hover:text-yellow-400 transition-all duration-300" />
             </button>
             <button
               className="p-2 rounded-full group transition-all duration-500 flex items-center"
-              //   onClick={() => handlerDeleteTool(id)}
+              onClick={() => handlerDeleteImport(id)}
             >
               <FaTrash className="text-red-500 hover:text-red-400 transition-all duration-300" />
             </button>

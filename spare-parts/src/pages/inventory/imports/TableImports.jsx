@@ -3,6 +3,9 @@ import { IoAddOutline } from "react-icons/io5";
 import { AuthContext } from "../../../auth/context/AuthContext";
 import { DashboardContext } from "../../../context/DashboardContext";
 import { TableRow } from "./TableRow";
+import { OrbitProgress } from "react-loading-indicators";
+import { Modal } from "../../../components/modal/Modal";
+import { ImportsForm } from "./form/ImportsForm";
 
 export const TableImports = () => {
   const { login } = useContext(AuthContext);
@@ -13,6 +16,9 @@ export const TableImports = () => {
     getImportsByName,
     handlerCloseTableImports,
     isLoading,
+    editing,
+    visibleForm,
+    handlerOpenForm,
   } = importsHook;
 
   const [filteredRecords, setFilteredRecords] = useState([]);
@@ -52,7 +58,7 @@ export const TableImports = () => {
           {login.user.isAdmin === 1 && (
             <button
               className="shadow text-slate-200 text-center text-sm bg-teal-600 mb-3 p-2 rounded-lg hover:bg-teal-700 transition-all duration-300 mr-1 mt-1"
-              //   onClick={handlerOpenFormTable}
+              onClick={handlerOpenForm}
             >
               <IoAddOutline />
             </button>
@@ -125,7 +131,7 @@ export const TableImports = () => {
               })
             ) : (
               <tr>
-                <td colSpan={5} className="p-5 text-center">
+                <td colSpan={5} className="p-1 text-center">
                   Not imports registered
                 </td>
               </tr>
@@ -142,11 +148,11 @@ export const TableImports = () => {
           Cancelar
         </button>
       </div>
-      {/* {visibleFormTable && (
-        <Modal title={editing ? "Editar Herramienta" : "Registrar Herramienta"}>
-          <ToolForm />
+      {visibleForm && (
+        <Modal title={editing ? "Update Import" : "Register Import"}>
+          <ImportsForm />
         </Modal>
-      )} */}
+      )}
     </>
   );
 };

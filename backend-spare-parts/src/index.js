@@ -6,13 +6,14 @@ import jwt from 'jsonwebtoken';
 import { corsMiddleware } from "./middlewares/cors.js";
 //PORT
 import { PORT, SECRET_JWT_KEY } from "./config/config.js";
-//routes
+//routers
 import { usersRouter } from "./routes/users.router.js";
 import { authRouter } from "./routes/auth.router.js";
 import { personalRouter } from "./routes/personal.router.js";
 import { toolsRouter } from "./routes/tools.router.js";
 import { outToolsRouter } from "./routes/outTools.router.js";
 import { inventoryRouter } from "./routes/inventory.router.js";
+import { importsRouter } from "./routes/imports.router.js";
 
 const app = express();
 
@@ -51,7 +52,10 @@ app.use('/tools', toolsRouter);
 app.use('/out-tool', outToolsRouter);
 
 //INVENTORY
-app.use('/inventory', inventoryRouter)
+app.use('/inventory', inventoryRouter);
+
+//IMPORTS
+app.use('/imports', importsRouter);
 
 
 //RUN
