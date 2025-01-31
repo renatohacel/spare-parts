@@ -11,3 +11,9 @@ inventoryRouter.post('/', upload.single('image'), InventoryController.create);
 
 //delete
 inventoryRouter.delete('/:id', InventoryController.delete)
+
+//update
+inventoryRouter.patch('/:id', upload.single('image'), InventoryController.update)
+
+//check-dashboard
+inventoryRouter.patch('/check-dashboard/:id', InventoryController.check_dashboard)

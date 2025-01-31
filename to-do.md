@@ -3,11 +3,11 @@
 ---Pendientes relativamente pronto---
 
 1. Sección Inventory:
-   []Creación del método delete
-   []Creación del método edit
+   [x]Creación del método delete
+   [x]Creación del método edit
    -Ver si abrir campos dinamicos en el form con la id
    []Creación del método check_dashboard
-   []Creación del modal click image
+   [x]Creación del modal click image
 2. Sección Tools:
    []Corregir la sección de editar - Se desactiva la entrega - Posibile edit en el form, con campos dinamicos por la id
 3. Sección Imports/Exports:
