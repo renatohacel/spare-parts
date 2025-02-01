@@ -7,10 +7,12 @@ import { Modal } from "../../../components/modal/Modal";
 import { InventoryForm } from "../form/InventoryForm";
 import { ImageModal } from "../../../components/modal/ImageModal";
 import { TableImports } from "../imports/TableImports";
+import { TableExports } from "../exports/TableExports";
 
 export const TableInventory = () => {
   const { login } = useContext(AuthContext);
-  const { inventoryHook, importsHook } = useContext(DashboardContext);
+  const { inventoryHook, importsHook, exportsHook } =
+    useContext(DashboardContext);
   const {
     inventory,
     isLoading,
@@ -22,14 +24,23 @@ export const TableInventory = () => {
     imageSelected,
   } = inventoryHook;
 
-  const { visibleImports, partNumSelected, sendImport } = importsHook;
+  const {
+    visibleImports,
+    partNumSelected: partNumSelectedImport,
+    sendImport,
+  } = importsHook;
+  const {
+    visibleExports,
+    partNumSelected: partNumSelectedExport,
+    sendExport,
+  } = exportsHook;
 
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     getInventory();
-  }, [sendImport]);
+  }, [sendImport, sendExport]);
 
   useEffect(() => {
     applyFilters();
@@ -49,7 +60,7 @@ export const TableInventory = () => {
           "suplier_part_num",
           "qty_import_total",
           "qty",
-          "ubication",
+          "location",
           "damages",
           "qty_export_total",
           "comments",
@@ -103,7 +114,7 @@ export const TableInventory = () => {
                 "Qty. Import Total",
                 "In Dashboard",
                 "Quantity in stock",
-                "Ubication",
+                "Location",
                 "Damages",
                 "Qty. Export Total",
                 "Comments",
@@ -165,11 +176,24 @@ export const TableInventory = () => {
           title={
             <>
               Imports of{" "}
-              <span className="text-teal-600">{partNumSelected}</span>
+              <span className="text-teal-600">{partNumSelectedImport}</span>
             </>
           }
         >
           <TableImports />
+        </Modal>
+      )}
+
+      {visibleExports && (
+        <Modal
+          title={
+            <>
+              Exports of{" "}
+              <span className="text-teal-600">{partNumSelectedExport}</span>
+            </>
+          }
+        >
+          <TableExports />
         </Modal>
       )}
     </>

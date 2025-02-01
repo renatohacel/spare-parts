@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { DashboardContext } from "../../../../context/DashboardContext";
 import Swal from "sweetalert2";
+import { DashboardContext } from "../../../../context/DashboardContext";
 
 const Toast = Swal.mixin({
   toast: true,
@@ -14,30 +14,30 @@ const Toast = Swal.mixin({
   },
 });
 
-export const ImportsForm = () => {
-  const { importsHook, generalHook } = useContext(DashboardContext);
+export const ExportsForm = () => {
+  const { exportsHook, generalHook } = useContext(DashboardContext);
   const { onKeyQty, onInputQty } = generalHook;
   const {
     handlerCloseForm,
-    initialFormImport,
-    handlerAddImport,
-    importSelected,
+    initialFormExport,
+    handlerAddExport,
+    exportSelected,
     partNumSelected,
-  } = importsHook;
+  } = exportsHook;
 
-  const [importForm, setImportForm] = useState({
-    ...initialFormImport,
+  const [exportForm, setExportForm] = useState({
+    ...initialFormExport,
     part_num: partNumSelected,
   });
-  const { id, qty, date } = importForm;
+  const { id, qty, receiver_location, date } = exportForm;
 
   useEffect(() => {
-    setImportForm({ ...importSelected });
-  }, [importSelected]);
+    setExportForm({ ...exportSelected });
+  }, [exportSelected]);
 
   const onInputChange = ({ target: { value, name } }) => {
-    setImportForm({
-      ...importForm,
+    setExportForm({
+      ...exportForm,
       part_num: partNumSelected,
       [name]: value,
     });
@@ -51,8 +51,14 @@ export const ImportsForm = () => {
         title: "Quantity must be more than 0",
       });
       return;
+    } else if (!receiver_location) {
+      Toast.fire({
+        icon: "warning",
+        title: "Receiver's location is required",
+      });
+      return;
     }
-    handlerAddImport(importForm);
+    handlerAddExport(exportForm);
   };
 
   return (
@@ -63,7 +69,7 @@ export const ImportsForm = () => {
             className="text-slate-400 font-medium mb-1 whitespace-nowrap"
             htmlFor="qty"
           >
-            Qty. Import
+            Qty. Export
           </label>
           <input
             className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
@@ -75,7 +81,21 @@ export const ImportsForm = () => {
             value={qty}
           />
         </div>
-
+        <div className="flex flex-col p-1">
+          <label
+            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
+            htmlFor="receiver_location"
+          >
+            Receiver's location
+          </label>
+          <input
+            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
+            name="receiver_location"
+            type="text"
+            onChange={onInputChange}
+            value={receiver_location}
+          />
+        </div>
         {id !== 0 && (
           <div className="flex flex-col p-1">
             <label

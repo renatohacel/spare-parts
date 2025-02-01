@@ -33,7 +33,7 @@ export const InventoryForm = () => {
     part_num,
     suplier_part_num,
     qty_import_total,
-    ubication,
+    location,
     comments,
 
     //edit
@@ -74,13 +74,7 @@ export const InventoryForm = () => {
   const onSubit = (e) => {
     e.preventDefault();
     if (id === 0) {
-      if (
-        !id_feature ||
-        !name ||
-        !part_num ||
-        !qty_import_total ||
-        !ubication
-      ) {
+      if (!id_feature || !name || !part_num || !qty_import_total || !location) {
         Toast.fire({
           icon: "warning",
           title: "Todos los campos son obligatorios",
@@ -101,7 +95,7 @@ export const InventoryForm = () => {
     if (id === 0) {
       formData.append("qty", qty_import_total);
     }
-    formData.append("ubication", ubication);
+    formData.append("location", location.toUpperCase());
     formData.append("comments", comments || "");
     if (inventoryForm.image) {
       formData.append("image", inventoryForm.image);
@@ -297,16 +291,16 @@ export const InventoryForm = () => {
         <div className="flex flex-col p-1">
           <label
             className="text-slate-400 font-medium mb-1 whitespace-nowrap"
-            htmlFor="ubication"
+            htmlFor="location"
           >
-            Ubication
+            Location
           </label>
           <input
             className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
-            name="ubication"
+            name="location"
             type="text"
             onChange={onInputChange}
-            value={ubication}
+            value={location}
           />
         </div>
         {id !== 0 && (

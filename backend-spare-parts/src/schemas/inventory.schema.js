@@ -47,7 +47,7 @@ export const Inventory = sequelize.define('inventory', {
         allowNull: false,
         defaultValue: 0,
     },
-    ubication: {
+    location: {
         type: DataTypes.TEXT,
         allowNull: false,
     },

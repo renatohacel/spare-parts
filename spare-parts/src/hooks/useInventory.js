@@ -29,7 +29,7 @@ const initialFormInventory = {
     part_num: '',
     suplier_part_num: '',
     qty_import_total: '',
-    ubication: '',
+    location: '',
     comments: '',
 }
 

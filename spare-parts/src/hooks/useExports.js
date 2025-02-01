@@ -1,7 +1,7 @@
 import { useReducer, useState } from "react"
-import { importsReducer } from "../reducers/importsReducer";
 import Swal from "sweetalert2";
-import { createImport, deleteImport, getByName, updateImport } from "../pages/inventory/imports/services/importsService";
+import { exportsReducer } from "../reducers/exportsReducer";
+import { createExport, deleteExport, getByName, updateExport } from "../pages/inventory/exports/services/exportsServices";
 
 
 const Toast = Swal.mixin({
@@ -22,60 +22,61 @@ const ToastDeleted = Swal.mixin({
 });
 
 
-const initialFormImport = {
+const initialFormExport = {
     id: 0,
     part_num: '',
     qty: '',
+    receiver_location: '',
 }
 
-export const useImports = () => {
-    const [imports, dispatch] = useReducer(importsReducer, []);
-    const [visibleImports, setVisibleImports] = useState(false);
+export const useExports = () => {
+    const [exports, dispatch] = useReducer(exportsReducer, []);
+    const [visibleExports, setVisibleExports] = useState(false);
     const [partNumSelected, setPartNumSelected] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [editing, setEditing] = useState(false);
     const [visibleForm, setVisibleForm] = useState(false);
-    const [importSelected, setImportSelected] = useState(initialFormImport)
-    const [sendImport, setSendImport] = useState(false);
+    const [exportSelected, setExportSelected] = useState(initialFormExport)
+    const [sendExport, setSendExport] = useState(false);
 
 
-    const getImportsByName = async (part_num) => {
+    const getExportsByName = async (part_num) => {
         try {
             setIsLoading(true);
             const result = await getByName(part_num);
             dispatch({
-                type: 'loadImport',
+                type: 'loadExport',
                 payload: result.data
             })
         } catch (error) {
-            console.error("Error fetching imports:", error);
+            console.error("Error fetching exports:", error);
         } finally {
             setIsLoading(false);
         }
     }
 
-    const handlerAddImport = async (imp) => {
+    const handlerAddExport = async (imp) => {
         try {
-            setSendImport(true);
+            setSendExport(true);
             const response = imp.id === 0
-                ? await createImport(imp)
-                : await updateImport(imp)
+                ? await createExport(imp)
+                : await updateExport(imp)
             if (response && response.status === 201) {
                 dispatch({
-                    type: (imp.id === 0) ? 'addImport' : 'updateImport',
+                    type: (imp.id === 0) ? 'addExport' : 'updateExport',
                     payload: response.data.result
                 })
                 if (imp.id !== 0) {
                     handlerCloseForm();
                     Toast.fire({
                         icon: "success",
-                        title: "Import updated successfully",
+                        title: "Export updated successfully",
                     });
                 } else {
                     handlerCloseForm();
                     Toast.fire({
                         icon: "success",
-                        title: "Import updated successfully",
+                        title: "Export updated successfully",
                     });
                 }
             } else if (response && response.status === 404) {
@@ -87,17 +88,17 @@ export const useImports = () => {
                 throw new Error('Error desconocido');
             }
         } catch (error) {
-            console.error('Error in handlerAddOutTool:', error);
+            console.error('Error in handlerAddExport:', error);
             Toast.fire({
                 icon: "error",
                 title: "Error registering import",
             });
         } finally {
-            setSendImport(false);
+            setSendExport(false);
         }
     }
 
-    const handlerDeleteImport = async (id) => {
+    const handlerDeleteExport = async (id) => {
         ToastDeleted.fire({
             title: "¿Está seguro de eliminar la importación?",
             text: "Cuidado! Esta acción no se puede deshacer",
@@ -108,18 +109,18 @@ export const useImports = () => {
             confirmButtonText: "Si, eliminar"
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteImport(id);
+                deleteExport(id);
                 dispatch({
-                    type: "deleteImport",
+                    type: "deleteExport",
                     payload: id,
                 });
-                setSendImport(true);
+                setSendExport(true);
                 Toast.fire({
                     title: "Import eliminado correctamente",
                     icon: "success"
                 });
             }
-        }).finally(() => setSendImport(false));
+        }).finally(() => setSendExport(false));
     }
 
     const handlerOpenForm = () => {
@@ -129,44 +130,44 @@ export const useImports = () => {
 
     const handlerCloseForm = () => {
         setVisibleForm(false);
-        setImportSelected(initialFormImport)
+        setExportSelected(initialFormExport)
     }
 
     const handlerPartNumSelected = (part_num) => {
-        setVisibleImports(true);
+        setVisibleExports(true);
         setPartNumSelected(part_num)
     }
 
-    const handlerImportSelected = (imp) => {
+    const handlerExportSelected = (exp) => {
         setEditing(true);
         setVisibleForm(true);
-        setImportSelected({ ...imp })
+        setExportSelected({ ...exp })
     }
 
-    const handlerCloseTableImports = () => {
-        setVisibleImports(false)
+    const handlerCloseTableExports = () => {
+        setVisibleExports(false)
         setPartNumSelected({})
     }
 
 
     return {
-        imports,
-        visibleImports,
+        exports,
+        visibleExports,
         partNumSelected,
         isLoading,
         editing,
         visibleForm,
-        importSelected,
-        initialFormImport,
-        sendImport,
+        exportSelected,
+        initialFormExport,
+        sendExport,
 
         handlerPartNumSelected,
-        getImportsByName,
-        handlerCloseTableImports,
+        getExportsByName,
+        handlerCloseTableExports,
         handlerOpenForm,
         handlerCloseForm,
-        handlerAddImport,
-        handlerImportSelected,
-        handlerDeleteImport,
+        handlerAddExport,
+        handlerExportSelected,
+        handlerDeleteExport,
     }
 }

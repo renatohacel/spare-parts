@@ -18,13 +18,14 @@ export const TableRow = ({
   qty_import_total,
   is_dashboard,
   qty,
-  ubication,
+  location,
   damages,
   qty_export_total,
   comments,
 }) => {
   const { login } = useContext(AuthContext);
-  const { inventoryHook, importsHook } = useContext(DashboardContext);
+  const { inventoryHook, importsHook, exportsHook } =
+    useContext(DashboardContext);
   const {
     handlerDeleteMaterial,
     handlerMaterialSelected,
@@ -32,6 +33,7 @@ export const TableRow = ({
     handlerCheckDashboard,
   } = inventoryHook;
   const { handlerPartNumSelected } = importsHook;
+  const { handlerPartNumSelected: handlerpartNumSelectedExport } = exportsHook;
   return (
     <>
       <tr className="bg-white transition-all duration-500 hover:bg-slate-100 text-center">
@@ -119,7 +121,7 @@ export const TableRow = ({
           {qty}
         </td>
         <td className="p-1 whitespace-nowrap text-sm leading-6 font-normal text-gray-900">
-          {ubication}
+          {location}
         </td>
         <td className="p-1 whitespace-nowrap text-sm leading-6 font-normal text-gray-900">
           {damages}
@@ -127,7 +129,13 @@ export const TableRow = ({
         <td className="p-1 whitespace-nowrap text-sm leading-6 font-normal text-gray-900">
           <div className="flex gap-2">
             {qty_export_total}
-            <button id="exports" data-tooltip-place="top">
+            <button
+              id="exports"
+              data-tooltip-place="top"
+              onClick={() => {
+                handlerpartNumSelectedExport(part_num);
+              }}
+            >
               <IoIosEye className="mt-[1px] text-blue-600 hover:text-blue-400 transition-all duration-300" />
             </button>
             <Tooltip anchorSelect="#exports">See Exports</Tooltip>
@@ -154,7 +162,7 @@ export const TableRow = ({
                     part_num,
                     suplier_part_num: suplier_part_num || "",
                     qty_import_total,
-                    ubication,
+                    location,
                     comments: comments || "",
                     qty,
                     is_dashboard,

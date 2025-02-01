@@ -1,7 +1,6 @@
 import { ImportsModel } from "../models/imports.model.js"
 
 
-
 export class ImportsController {
     static async getByName(req, res) {
         try {
@@ -34,6 +33,22 @@ export class ImportsController {
         } catch (error) {
             console.log(error)
             return res.status(500).send({ message: 'Error en el servidor' });
+        }
+    }
+
+    static async update(req, res) {
+        const { id } = req.params
+        try {
+            const result = await ImportsModel.update({
+                id,
+                input: req.body
+            })
+            if (result === null) return res.status(404).send({ message: 'Import Not Found' })
+
+            return res.status(201).send({ result });
+        } catch (error) {
+            console.error('Error update import:', error);
+            return res.status(500).send({ message: 'Error update import' });
         }
     }
 }

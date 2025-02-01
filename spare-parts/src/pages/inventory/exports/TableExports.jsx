@@ -1,39 +1,39 @@
 import { useContext, useEffect, useState } from "react";
 import { IoAddOutline } from "react-icons/io5";
-import { AuthContext } from "../../../auth/context/AuthContext";
-import { DashboardContext } from "../../../context/DashboardContext";
 import { TableRow } from "./TableRow";
 import { OrbitProgress } from "react-loading-indicators";
+import { AuthContext } from "../../../auth/context/AuthContext";
+import { DashboardContext } from "../../../context/DashboardContext";
 import { Modal } from "../../../components/modal/Modal";
-import { ImportsForm } from "./form/ImportsForm";
+import { ExportsForm } from "./form/ExportsForm";
 
-export const TableImports = () => {
+export const TableExports = () => {
   const { login } = useContext(AuthContext);
-  const { importsHook } = useContext(DashboardContext);
+  const { exportsHook } = useContext(DashboardContext);
   const {
-    imports,
+    exports,
     partNumSelected,
-    getImportsByName,
-    handlerCloseTableImports,
+    getExportsByName,
+    handlerCloseTableExports,
     isLoading,
     editing,
     visibleForm,
     handlerOpenForm,
-  } = importsHook;
+  } = exportsHook;
 
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    getImportsByName(partNumSelected);
+    getExportsByName(partNumSelected);
   }, []);
 
   useEffect(() => {
     applyFilters();
-  }, [imports, searchText]);
+  }, [exports, searchText]);
 
   const applyFilters = () => {
-    let records = [...imports];
+    let records = [...exports];
 
     // Filtrar por texto
     if (searchText.trim() !== "") {
@@ -94,6 +94,12 @@ export const TableImports = () => {
                 scope="col"
                 className="p-2 text-sm leading-6 font-semibold text-slate-600 capitalize bg-slate-300 bg-opacity-45 hover:bg-slate-200"
               >
+                Receiver's location
+              </th>
+              <th
+                scope="col"
+                className="p-2 text-sm leading-6 font-semibold text-slate-600 capitalize bg-slate-300 bg-opacity-45 hover:bg-slate-200"
+              >
                 Date
               </th>
               {login.user.isAdmin === 1 && (
@@ -132,7 +138,7 @@ export const TableImports = () => {
             ) : (
               <tr>
                 <td colSpan={5} className="p-1 text-center">
-                  Not imports registered
+                  Not exports registered
                 </td>
               </tr>
             )}
@@ -143,14 +149,14 @@ export const TableImports = () => {
         <button
           type="button"
           className="shadow text-slate-400 text-center text-sm border border-gray-300 p-2 rounded-lg hover:bg-gray-400 hover:text-gray-100 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50 mt-1"
-          onClick={handlerCloseTableImports}
+          onClick={handlerCloseTableExports}
         >
           Cancel
         </button>
       </div>
       {visibleForm && (
-        <Modal title={editing ? "Update Import" : "Register Import"}>
-          <ImportsForm />
+        <Modal title={editing ? "Update Export" : "Register Export"}>
+          <ExportsForm />
         </Modal>
       )}
     </>

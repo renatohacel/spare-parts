@@ -31,7 +31,7 @@ export class InventoryController {
                 suplier_part_num,
                 qty_import_total,
                 qty,
-                ubication,
+                location,
                 comments
             } = req.body;
 
@@ -51,7 +51,7 @@ export class InventoryController {
                     suplier_part_num: processedSuplierPartNum,
                     qty_import_total: parsedQtyImportTotal,
                     qty: parsedQty,
-                    ubication,
+                    location,
                     comments: processedComments,
                     image,
                 }

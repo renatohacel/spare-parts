@@ -14,6 +14,7 @@ import { toolsRouter } from "./routes/tools.router.js";
 import { outToolsRouter } from "./routes/outTools.router.js";
 import { inventoryRouter } from "./routes/inventory.router.js";
 import { importsRouter } from "./routes/imports.router.js";
+import { exportsRouter } from "./routes/exports.router.js";
 
 const app = express();
 
@@ -56,6 +57,9 @@ app.use('/inventory', inventoryRouter);
 
 //IMPORTS
 app.use('/imports', importsRouter);
+
+//EXPORTS
+app.use('/exports', exportsRouter);
 
 
 //RUN
