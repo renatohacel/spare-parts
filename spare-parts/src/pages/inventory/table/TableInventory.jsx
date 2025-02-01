@@ -175,8 +175,8 @@ export const TableInventory = () => {
         <Modal
           title={
             <>
-              Imports of{" "}
-              <span className="text-teal-600">{partNumSelectedImport}</span>
+              Imports{"   "}
+              <span className="text-teal-500">{partNumSelectedImport}</span>
             </>
           }
         >
@@ -188,8 +188,8 @@ export const TableInventory = () => {
         <Modal
           title={
             <>
-              Exports of{" "}
-              <span className="text-teal-600">{partNumSelectedExport}</span>
+              Exports{" "}
+              <span className="text-teal-500">{partNumSelectedExport}</span>
             </>
           }
         >

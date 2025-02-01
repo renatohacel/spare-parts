@@ -100,19 +100,31 @@ export const TableRow = ({
               </div>
             ) : (
               <>
-                <button
-                  id="is-dashboard"
-                  data-tooltip-place="top"
-                  className="rounded-full transition-all duration-300 bg-orange-400 p-2 text-xs bg-opacity-50 text-orange-600 hover:bg-orange-500 hover:bg-opacity-70 hover:text-orange-300"
-                  onClick={() => {
-                    handlerCheckDashboard(id);
-                  }}
-                >
-                  <AiOutlineClose />
-                </button>
-                <Tooltip anchorSelect="#is-dashboard" clickable>
-                  Check in dashboard
-                </Tooltip>
+                {login.user.isAdmin === 1 ? (
+                  <>
+                    <button
+                      id="is-dashboard"
+                      data-tooltip-place="top"
+                      className="rounded-full transition-all duration-300 bg-orange-400 p-2 text-xs bg-opacity-50 text-orange-600 hover:bg-orange-500 hover:bg-opacity-70 hover:text-orange-300"
+                      onClick={() => {
+                        handlerCheckDashboard(id);
+                      }}
+                    >
+                      <AiOutlineClose />
+                    </button>
+                    <Tooltip anchorSelect="#is-dashboard" clickable>
+                      Check in dashboard
+                    </Tooltip>
+                  </>
+                ) : (
+                  <div
+                    id="is-dashboard"
+                    data-tooltip-place="top"
+                    className="rounded-full bg-orange-400 p-2 text-xs bg-opacity-50 text-orange-600"
+                  >
+                    <AiOutlineClose />
+                  </div>
+                )}
               </>
             )}
           </div>

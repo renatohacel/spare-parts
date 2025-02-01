@@ -2,14 +2,8 @@
 
 ---Pendientes relativamente pronto---
 
-2. Sección Tools:
-   []Corregir la sección de editar - Se desactiva la entrega - Posibile edit en el form, con campos dinamicos por la id
-
-3. Sección Imports/Exports:
-   [x]Creación del modal con la tabla
-   -Pero, el modal debe filtrar por id del row que se seleccione
-   -También añadir metodos filtrados por row de crud
-   []Creación de los metodos crud en backend, ya muestra la tabla
+1. Creación del layout
+   []Ver como enlazar e iterar los racks
 
 ---Pendientes a futuro---
 

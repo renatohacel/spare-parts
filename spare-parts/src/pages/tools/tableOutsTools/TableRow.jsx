@@ -67,28 +67,50 @@ export const TableRow = ({
       <td className="p-1 whitespace-nowrap text-sm leading-6 font-normal text-gray-900">
         <div className="flex flex-col items-center">
           {is_returned === 1 ? (
-            <div className="rounded-full bg-green-400 p-2 text-xs bg-opacity-50 text-green-600">
-              <FaCheck />
-            </div>
+            <>
+              <div
+                id="return"
+                className="rounded-full bg-green-400 p-2 text-xs bg-opacity-50 text-green-600"
+                data-tooltip-place="top"
+              >
+                <FaCheck />
+              </div>
+              <Tooltip anchorSelect="#return">Entregada</Tooltip>
+            </>
           ) : (
             <>
-              <button
-                id="no-return"
-                data-tooltip-place="top"
-                className="rounded-full transition-all duration-300 bg-orange-400 p-2 text-xs bg-opacity-50 text-orange-600 hover:bg-orange-500 hover:bg-opacity-70 hover:text-orange-300"
-                onClick={() => {
-                  handlerCommentsSelected({
-                    id,
-                    comments: comments || "",
-                    tool,
-                  });
-                }}
-              >
-                <CgSandClock />
-              </button>
-              <Tooltip anchorSelect="#no-return" clickable>
-                Marcar devolución
-              </Tooltip>
+              {login.user.isAdmin === 1 ? (
+                <>
+                  <button
+                    id="no-return"
+                    data-tooltip-place="top"
+                    className="rounded-full transition-all duration-300 bg-orange-400 p-2 text-xs bg-opacity-50 text-orange-600 hover:bg-orange-500 hover:bg-opacity-70 hover:text-orange-300"
+                    onClick={() => {
+                      handlerCommentsSelected({
+                        id,
+                        comments: comments || "",
+                        tool,
+                      });
+                    }}
+                  >
+                    <CgSandClock />
+                  </button>
+                  <Tooltip anchorSelect="#no-return" clickable>
+                    Marcar devolución
+                  </Tooltip>
+                </>
+              ) : (
+                <>
+                  <div
+                    id="no-return"
+                    data-tooltip-place="top"
+                    className="rounded-full bg-orange-400 p-2 text-xs bg-opacity-50 text-orange-600"
+                  >
+                    <CgSandClock />
+                  </div>
+                  <Tooltip anchorSelect="#no-return">Ocupada</Tooltip>
+                </>
+              )}
             </>
           )}
         </div>

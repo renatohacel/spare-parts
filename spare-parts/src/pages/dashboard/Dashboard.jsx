@@ -5,7 +5,6 @@ import { FaHome } from "react-icons/fa";
 
 export const Dashboard = () => {
   // Crear una referencia para el botón "RACK 23"
-  const [found, setFound] = useState(false);
   const rack23Ref = useRef(null);
 
   // Enfocar y desplazar la pantalla hacia el botón "RACK 23" al iniciar
@@ -13,7 +12,6 @@ export const Dashboard = () => {
     if (rack23Ref.current) {
       rack23Ref.current.focus(); // Enfocar el botón
       rack23Ref.current.scrollIntoView({ behavior: "smooth", block: "center" }); // Desplazar la pantalla hacia el botón
-      setFound(true);
     }
   }, []);
 
@@ -168,7 +166,7 @@ export const Dashboard = () => {
                   ref={rack23Ref} // Asignar la referencia al botón "RACK 23"
                   className={` rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono  transition-all duration-500  
                     ${
-                      found
+                      rack23Ref
                         ? "-translate-y-3 bg-teal-600 shadow-2xl shadow-green-700 hover:bg-teal-500 focus:outline-none focus:ring-teal-700 focus:ring-2"
                         : "bg-slate-600 hover:shadow-2xl hover:bg-slate-400 hover:-translate-y-3"
                     }`}
