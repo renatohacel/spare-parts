@@ -11,11 +11,11 @@ export const DamageControl = () => {
         <div className="flex flex-row gap-2 text-3xl font-bold ">
           <IoIosArrowForward className="mt-[4px]" />
           <TbShieldExclamation className="mt-[4px]" />
-          <h2 className="mb-6">Control de Daños</h2>
+          <h2 className="mb-6">Damage Control</h2>
         </div>
 
         <Card>
-          <h2 className="mb-6 font-medium">Lista de Daños Registrados</h2>
+          <h2 className="mb-6 font-medium text-xl">Damage Control List</h2>
         </Card>
       </main>
     </>

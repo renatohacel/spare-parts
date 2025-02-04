@@ -4,6 +4,7 @@ import { useImports } from "../hooks/useImports";
 import { useInventory } from "../hooks/useInventory";
 import { useOutTools } from "../hooks/useOutTools";
 import { usePersonal } from "../hooks/usePersonal";
+import { useRacks } from "../hooks/useRacks";
 import { useTools } from "../hooks/useTools";
 import { useUserProfile } from "../hooks/useUserProfile";
 import { useUsers } from "../hooks/useUsers";
@@ -37,6 +38,9 @@ export const DashboardProvider = ({ children }) => {
   //EXPORTS
   const exportsHook = useExports();
 
+  //RACKS
+  const racksHook = useRacks();
+
   return (
     <DashboardContext.Provider
       value={{
@@ -49,6 +53,7 @@ export const DashboardProvider = ({ children }) => {
         inventoryHook,
         importsHook,
         exportsHook,
+        racksHook,
       }}
     >
       {children}

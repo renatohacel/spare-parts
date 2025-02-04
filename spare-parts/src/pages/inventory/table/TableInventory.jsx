@@ -9,7 +9,7 @@ import { ImageModal } from "../../../components/modal/ImageModal";
 import { TableImports } from "../imports/TableImports";
 import { TableExports } from "../exports/TableExports";
 
-export const TableInventory = () => {
+export const TableInventory = ({ inRack = false, currentLocation = "" }) => {
   const { login } = useContext(AuthContext);
   const { inventoryHook, importsHook, exportsHook } =
     useContext(DashboardContext);
@@ -44,30 +44,42 @@ export const TableInventory = () => {
 
   useEffect(() => {
     applyFilters();
-  }, [inventory, searchText]);
+  }, [inventory, searchText, currentLocation]);
 
   const applyFilters = () => {
     let records = [...inventory];
 
-    // Filtrar por texto
-    if (searchText.trim() !== "") {
+    if (inRack) {
+      setSearchText(currentLocation);
       const lowerCaseText = searchText.toLowerCase();
       records = records.filter((record) =>
-        [
-          "id_feature",
-          "name",
-          "part_num",
-          "suplier_part_num",
-          "qty_import_total",
-          "qty",
-          "location",
-          "damages",
-          "qty_export_total",
-          "comments",
-        ].some((key) =>
+        ["location"].some((key) =>
           record[key]?.toString().toLowerCase().includes(lowerCaseText)
         )
       );
+    }
+
+    if (!inRack) {
+      // Filtrar por texto
+      if (searchText.trim() !== "") {
+        const lowerCaseText = searchText.toLowerCase();
+        records = records.filter((record) =>
+          [
+            "id_feature",
+            "name",
+            "part_num",
+            "suplier_part_num",
+            "qty_import_total",
+            "qty",
+            "location",
+            "damages",
+            "qty_export_total",
+            "comments",
+          ].some((key) =>
+            record[key]?.toString().toLowerCase().includes(lowerCaseText)
+          )
+        );
+      }
     }
 
     setFilteredRecords(records);
@@ -91,13 +103,15 @@ export const TableInventory = () => {
           )}
         </div>
         <div className="flex items-end gap-3">
-          <input
-            className="mb-3 p-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
-            placeholder="Search..."
-            type="text"
-            value={searchText}
-            onChange={handleSearchChange}
-          />
+          {!inRack && (
+            <input
+              className="mb-3 p-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
+              placeholder="Search..."
+              type="text"
+              value={searchText}
+              onChange={handleSearchChange}
+            />
+          )}
         </div>
       </div>
       <div className="flex-1 overflow-x-auto overflow-y-auto shadow rounded-lg max-h-[calc(100vh-200px)]">

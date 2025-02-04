@@ -71,7 +71,7 @@ export const DashboardRoutes = () => {
             <Routes>
               <Route path="/" element={<Navigate to="/home" />} />
               <Route path="home" element={<Dashboard />} />
-              <Route path="/rack" element={<Rack />} />
+              <Route path="/rack/:rackId" element={<Rack />} />
               <Route path="inventory" element={<Inventory />} />
               <Route path="in-outs" element={<InOuts />} />
               <Route path="tools" element={<Tools />} />

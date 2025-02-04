@@ -10,7 +10,7 @@ export const InOuts = () => {
         <div className="flex flex-row gap-2 text-3xl font-bold ">
           <IoIosArrowForward className="mt-[4px]" />
           <CgArrowsExchange className="mt-[4px]" />
-          <h2 className="mb-6">Ingresos / Salidas</h2>
+          <h2 className="mb-6">In / Outs</h2>
         </div>
 
         <Card>

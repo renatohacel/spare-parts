@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize';
 import path from 'path'; // Importar el módulo path para manejar rutas
 
 // Obtener la ruta absoluta al archivo de la base de datos
-const dbPath = path.resolve('C:/Users/PC/OneDrive/database', 'db_spare_parts.db');
+const dbPath = path.resolve('database', 'db_spare_parts.db');
 
 export const sequelize = new Sequelize({
     dialect: 'sqlite',

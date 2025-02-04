@@ -26,7 +26,7 @@ export const Tools = () => {
         <div className="flex flex-row gap-2 text-3xl font-bold ">
           <IoIosArrowForward className="mt-[4px]" />
           <LiaToolsSolid className="mt-[4px]" />
-          <h2 className="mb-6">Herramientas</h2>
+          <h2 className="mb-6">Tools</h2>
         </div>
 
         <Card>
