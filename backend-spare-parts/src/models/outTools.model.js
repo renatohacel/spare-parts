@@ -1,7 +1,6 @@
 import { OutTool } from "../schemas/in_out_tools.schema.js";
 import { Personal } from "../schemas/personal.schema.js";
 import { Tools } from "../schemas/tools.schema.js";
-import { Op } from "sequelize";
 
 export class OutToolsModel {
     static async getAll() {

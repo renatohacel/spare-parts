@@ -1,79 +1,210 @@
-import { useState } from "react";
-import {
-  IoArrowBackCircleOutline,
-  IoArrowForwardCircleOutline,
-} from "react-icons/io5";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../auth/context/AuthContext";
+import { DashboardContext } from "../../../context/DashboardContext";
+import Swal from "sweetalert2";
+import Select from "react-select";
+import { areas } from "../../../data/autocompletes";
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.onmouseenter = Swal.stopTimer;
+    toast.onmouseleave = Swal.resumeTimer;
+  },
+});
 
 export const InOutsForm = () => {
-  //CAMPOS QUE SON POR MEDIO DEL BACKEND
-  //RECEPTOR, NO.EMPLEADO RECEPTOR, TURNO, FECHA, HORA
+  const { login } = useContext(AuthContext);
+  const { personalHook, generalHook, inOutsHook, inventoryHook } =
+    useContext(DashboardContext);
+  const {
+    onKeyName,
+    onInputName,
+    onKeyNumEm,
+    onInputNumEm,
+    onKeyQty,
+    onInputQty,
+  } = generalHook;
 
-  const [status, setStatus] = useState("Ingreso");
+  const { getPersonal, personal } = personalHook;
+  const { inventory, getInventory } = inventoryHook;
+
+  const { errors, handlerCloseFormInOut, initialFormInOut, inOutSelected } =
+    inOutsHook;
+
+  const [inOutForm, setInOutForm] = useState(initialFormInOut);
+  const [selectedReceiver, setSelectedReceiver] = useState(null);
+  const [selectedArea, setSelectedArea] = useState(null);
+  const [selectedMaterial, setSelectedMaterial] = useState(null);
+
+  const {
+    id,
+    num_employee_receiver,
+    tester,
+    reason_scrap,
+    qty_scrap,
+    sn_scrap,
+    qty_material,
+    sn_material,
+    comments,
+  } = inOutForm;
+
+  useEffect(() => {
+    getPersonal();
+    getInventory();
+  }, []);
+
+  useEffect(() => {
+    setInOutForm({ ...inOutSelected });
+    setSelectedReceiver(inOutSelected.selectedReceiver);
+    setSelectedArea(inOutSelected.selectedArea);
+    setSelectedMaterial(inOutSelected.selectedMaterial);
+  }, [inOutSelected]);
+
+  // Actualizar el estado del formulario de salida de herramientas
+  const onInputChange = ({ target: { value, name } }) => {
+    setInOutForm({ ...inOutForm, [name]: value });
+  };
+
+  // Crear opciones para React-Select a partir de los datos de "personal"
+  const receiverOptions = personal.map((employee) => ({
+    value: employee.name,
+    label: employee.name,
+    num_employee: employee.num_employee,
+  }));
+
+  // Manejar el cambio de receptor
+  const onReceiverChange = (selectedOption) => {
+    setSelectedReceiver(selectedOption);
+    setInOutForm({
+      ...inOutForm,
+      receiver: selectedOption?.value || "",
+      num_employee_receiver: selectedOption?.num_employee || "",
+    });
+  };
+
+  const areaOptions = areas.map((area) => ({
+    value: area,
+    label: area,
+  }));
+  const onAreaChange = (selectedOption) => {
+    setSelectedArea(selectedOption);
+    setInOutForm({
+      ...inOutForm,
+      area: selectedOption?.value || "",
+    });
+  };
+
+  const materialOptions = inventory
+    .filter((material) => material.qty > 0)
+    .map((material) => ({
+      value: material.name,
+      label: material.name,
+    }));
+
+  const onMaterialChange = (selectedOption) => {
+    setSelectedMaterial(selectedOption);
+    setInOutForm({
+      ...inOutForm,
+      material: selectedOption?.value || "",
+    });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return (
-    <form className="flex flex-col gap-4 w-full p-5 shadow rounded-lg bg-slate-100 overflow-auto">
-      {/* PERSONAL INFO */}
-      <div className="flex flex-row gap-5">
-        <div className="flex flex-col w-full p-3">
+    <form className="grid grid-cols-4 gap-4 w-auto p-2" onSubmit={onSubmit}>
+      {/* Campo de receptor con React-Select */}
+      <div className="col-span-1">
+        <div className="flex flex-col p-1">
+          <label className="text-slate-400 font-medium mb-1" htmlFor="receiver">
+            Receiver
+          </label>
+          <Select
+            options={receiverOptions}
+            value={selectedReceiver}
+            onKeyDown={onKeyName}
+            onInput={onInputName}
+            onChange={onReceiverChange}
+            placeholder={selectedReceiver || "Seleccione un receptor"}
+            className="react-select-container"
+            classNamePrefix="react-select"
+          />
+        </div>
+        <p className="text-red-500 italic" style={{ fontSize: "0.9rem" }}>
+          {errors?.receiver}
+        </p>
+
+        <div className="flex flex-col p-1">
           <label
-            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
-            htmlFor="responsible"
+            className="text-slate-400 font-medium mb-1"
+            htmlFor="num_employee_receiver"
           >
-            Responsable
+            No. Employee
           </label>
           <input
             className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
-            name="responsible"
+            name="num_employee_receiver"
             type="text"
+            onKeyDown={onKeyNumEm}
+            onInput={onInputNumEm}
+            value={num_employee_receiver}
+            onChange={onInputChange}
           />
         </div>
-        <div className="flex flex-col w-full p-3">
-          <label
-            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
-            htmlFor="num_employee"
-          >
-            No. Empleado
+        <p className="text-red-500 italic" style={{ fontSize: "0.9rem" }}>
+          {errors?.num_employee_receiver}
+        </p>
+
+        <div className="flex flex-col p-1">
+          <label className="text-slate-400 font-medium mb-1" htmlFor="comments">
+            Comments
           </label>
           <input
             className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
-            name="num_employee"
+            name="comments"
             type="text"
+            value={comments}
+            onChange={onInputChange}
           />
         </div>
-        <div className="flex flex-col w-full p-3">
-          <label
-            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
-            htmlFor="status"
-          >
+      </div>
+      <div className="col-span-1">
+        <div className="flex flex-col p-1">
+          <label className="text-slate-400 font-medium mb-1" htmlFor="status">
             Status
           </label>
           <select
             className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
             name="status"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
+            type="text"
+            onChange={onInputChange}
           >
-            <option value="Ingreso">Ingreso</option>
-            <option value="Salida">Salida</option>
+            <option value={"Ingreso"}>Ingreso</option>
+            <option value={"Salida"}>Salida</option>
           </select>
         </div>
-      </div>
-      {/* UBICACION */}
-      <div className="flex flex-row gap-5">
-        <div className="flex flex-col w-full p-3">
-          <label
-            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
-            htmlFor="area"
-          >
-            Área
+        <div className="flex flex-col p-1">
+          <label className="text-slate-400 font-medium mb-1" htmlFor="area">
+            Area
           </label>
-          <input
-            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
-            name="area"
-            type="text"
+          <Select
+            options={areaOptions}
+            value={selectedArea}
+            onChange={onAreaChange}
+            placeholder={selectedArea || "Seleccione un receptor"}
+            className="react-select-container"
+            classNamePrefix="react-select"
           />
         </div>
-        <div className="flex flex-col w-full p-3">
+
+        <div className="flex flex-col p-1">
           <label className="text-slate-400 font-medium mb-1" htmlFor="tester">
             Tester
           </label>
@@ -81,171 +212,133 @@ export const InOutsForm = () => {
             className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
             name="tester"
             type="text"
+            value={tester}
+            onChange={onInputChange}
           />
         </div>
       </div>
-      <div className="flex flex-row gap-5">
-        <div className="flex flex-col w-full p-3">
+      <div className="col-span-1">
+        <div className="flex flex-col p-1">
           <label
-            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
-            htmlFor="reason"
+            className="text-slate-400 font-medium mb-1"
+            htmlFor="reason_scrap"
           >
-            Motivo/SCRAP
+            SCRAP Reason
           </label>
           <input
             className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
-            name="reason"
+            name="reason_scrap"
             type="text"
+            value={reason_scrap}
+            onChange={onInputChange}
           />
         </div>
 
-        {/* SCRAP */}
-        <div className="flex flex-col w-full p-3">
+        <div className="flex flex-col p-1">
           <label
-            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
-            htmlFor="sn_scrap"
+            className="text-slate-400 font-medium mb-1"
+            htmlFor="qty_scrap"
           >
-            SN de SCRAP
+            Qty. SCRAP
+          </label>
+          <input
+            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
+            name="qty_scrap"
+            type="number"
+            onKeyDown={onKeyQty}
+            onInput={onInputQty}
+            value={qty_scrap}
+            onChange={onInputChange}
+          />
+        </div>
+
+        <div className="flex flex-col p-1">
+          <label className="text-slate-400 font-medium mb-1" htmlFor="sn_scrap">
+            SN. SCRAP
           </label>
           <input
             className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
             name="sn_scrap"
             type="text"
-          />
-        </div>
-        <div className="flex flex-col w-full p-3">
-          <label
-            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
-            htmlFor="qty_scrap"
-          >
-            Cant. SCRAP
-          </label>
-          <input
-            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50 w-full"
-            name="qty_scrap"
-            type="number"
-            min={0}
-            onKeyDown={(e) => {
-              // Bloquear el signo "-" y otras teclas no deseadas
-              if (
-                e.key === "-" ||
-                e.key === "e" ||
-                e.key === "+" ||
-                e.key === "."
-              ) {
-                e.preventDefault();
-              }
-            }}
-            onInput={(e) => {
-              // Forzar que el valor sea positivo
-              if (e.target.value < 0) {
-                e.target.value = 0;
-              }
-            }}
+            value={sn_scrap}
+            onChange={onInputChange}
           />
         </div>
       </div>
-
-      {/* MATERIAL */}
-      <div className="flex flex-row gap-5">
-        <div className="flex flex-col w-full p-3">
-          <label
-            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
-            htmlFor="material"
-          >
+      <div className="col-span-1">
+        <div className="flex flex-col p-1">
+          <label className="text-slate-400 font-medium mb-1" htmlFor="material">
             Material
           </label>
-          <input
-            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
-            name="material"
-            type="text"
+          <Select
+            options={materialOptions}
+            value={selectedMaterial}
+            onKeyDown={onKeyName}
+            onInput={onInputName}
+            onChange={onMaterialChange}
+            placeholder={selectedMaterial || "Seleccione un material"}
+            className="react-select-container"
+            classNamePrefix="react-select"
           />
         </div>
 
-        <div className="flex flex-col w-full p-3">
+        <div className="flex flex-col p-1">
           <label
             className="text-slate-400 font-medium mb-1"
-            htmlFor="sn_material whitespace-nowrap"
+            htmlFor="qty_material"
           >
-            SN de Material
+            Qty. Material
           </label>
           <input
             className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
-            name="sn_material"
-            type="text"
-          />
-        </div>
-        <div className="flex flex-col w-full p-3">
-          <label
-            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
-            htmlFor="qty_material"
-          >
-            Cant. Material
-          </label>
-          <input
-            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50 w-full"
             name="qty_material"
             type="number"
-            min={0}
-            onKeyDown={(e) => {
-              // Bloquear el signo "-" y otras teclas no deseadas
-              if (
-                e.key === "-" ||
-                e.key === "e" ||
-                e.key === "+" ||
-                e.key === "."
-              ) {
-                e.preventDefault();
-              }
-            }}
-            onInput={(e) => {
-              // Forzar que el valor sea positivo
-              if (e.target.value < 0) {
-                e.target.value = 0;
-              }
-            }}
+            onKeyDown={onKeyQty}
+            onInput={onInputQty}
+            value={qty_material}
+            onChange={onInputChange}
           />
         </div>
-      </div>
-      <div className="flex flex-row gap-5">
-        <div className="flex flex-col w-full p-3">
+
+        <div className="flex flex-col p-1">
           <label
-            className="text-slate-400 font-medium mb-1 whitespace-nowrap"
-            htmlFor="comments"
+            className="text-slate-400 font-medium mb-1"
+            htmlFor="sn_material"
           >
-            Comentarios
+            SN. Material
           </label>
-          <textarea
-            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50 resize-none"
-            rows={4}
-            name="comments"
+          <input
+            className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
+            name="sn_scrap"
             type="text"
-            style={{
-              boxSizing: 'content-box'
-            }}
+            value={sn_material}
+            onChange={onInputChange}
           />
         </div>
       </div>
-      <div className="flex justify-start gap-5">
-        <div className="flex flex-row p-3">
-          <button className="shadow text-slate-200 text-center bg-teal-600 mb-3 py-2 px-7 w-auto rounded-lg hover:bg-teal-700 transition-all duration-300 focus:ring-2 focus:ring-teal-00 outline-none">
-            {status === "Ingreso" ? (
-              <>
-                <div className="flex gap-2">
-                  <IoArrowBackCircleOutline className="text-xl mt-[2.5px]" />
-                  <span>Registrar Ingreso</span>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="flex gap-2">
-                  <IoArrowForwardCircleOutline className="text-xl mt-[2.5px]" />
-                  <span>Registrar Salida</span>
-                </div>
-              </>
-            )}
+      <div className="flex gap-3 w-full overflow-auto mt-4 p-1 col-span-2">
+        {id === 0 ? (
+          <button
+            type="submit"
+            className="shadow text-slate-200 text-center text-sm bg-teal-600 p-2 rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700 w-32 transition"
+          >
+            Registrar
           </button>
-        </div>
+        ) : (
+          <button
+            type="submit"
+            className="shadow text-slate-200 text-center text-sm bg-amber-500 p-2 rounded-lg hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-800 w-32 transition"
+          >
+            Editar
+          </button>
+        )}
+        <button
+          type="button"
+          className="shadow text-slate-400 text-center text-sm border border-gray-300 p-2 rounded-lg hover:bg-gray-400 hover:text-gray-100 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
+          onClick={() => handlerCloseFormInOut()}
+        >
+          Cancelar
+        </button>
       </div>
     </form>
   );

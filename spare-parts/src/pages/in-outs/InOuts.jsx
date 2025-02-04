@@ -1,6 +1,7 @@
 import { IoIosArrowForward } from "react-icons/io";
 import { Card } from "../../components/templates/Card";
 import { CgArrowsExchange } from "react-icons/cg";
+import { TableInOuts } from "./table/TableInOuts";
 
 export const InOuts = () => {
   return (
@@ -14,7 +15,8 @@ export const InOuts = () => {
         </div>
 
         <Card>
-          <h2 className="mb-6 font-medium">Lista de Ingresos / Salidas</h2>
+          <h2 className="mb-6 font-medium text-xl">In / Outs List</h2>
+          <TableInOuts />
         </Card>
       </main>
     </>
