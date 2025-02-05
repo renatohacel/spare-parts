@@ -55,7 +55,7 @@ export class InOutsController {
                 return res.status(404).send({ message: 'In/Out not found' })
             }
 
-            return res.status(201).send({result})
+            return res.status(201).send({ result })
 
         } catch (error) {
 
