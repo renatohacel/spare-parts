@@ -6,6 +6,7 @@ import { OrbitProgress } from "react-loading-indicators";
 import { TableRow } from "./TableRow";
 import { Modal } from "../../../components/modal/Modal";
 import { InOutsForm } from "../form/InOutsForm";
+import { areas } from "../../../data/autocompletes";
 
 export const TableInOuts = () => {
   const { login } = useContext(AuthContext);
@@ -21,6 +22,8 @@ export const TableInOuts = () => {
 
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [areaFilter, setAreaFilter] = useState("Area");
+  const [statusFilter, setStatusFilter] = useState("All Status");
 
   useEffect(() => {
     getInOuts();
@@ -28,10 +31,23 @@ export const TableInOuts = () => {
 
   useEffect(() => {
     applyFilters();
-  }, [inOuts, searchText]);
+  }, [inOuts, searchText, areaFilter, statusFilter]);
 
   const applyFilters = () => {
     let records = [...inOuts];
+
+    //Filtrar por status
+    if (statusFilter !== "All Status") {
+      records = records.filter(
+        (record) => record.status?.toLowerCase() === statusFilter.toLowerCase()
+      );
+    }
+    if (areaFilter !== "Area") {
+      // Filtrar por área
+      records = records.filter(
+        (record) => record.area?.toLowerCase() === areaFilter.toLowerCase()
+      );
+    }
 
     // Filtrar por texto
     if (searchText.trim() !== "") {
@@ -39,23 +55,23 @@ export const TableInOuts = () => {
       records = records.filter((record) =>
         [
           "id",
-          'responsible',
-          'num_employee_responsible',
-          'status',
-          'receiver',
-          'num_employee_receiver',
-          'shift',
-          'date',
-          'time',
-          'area',
-          'tester',
-          'reason_scrap',
-          'qty_scrap',
-          'sn_scrap',
-          'material',
-          'qty_material',
-          'sn_material',
-          'comments',
+          "responsible",
+          "num_employee_responsible",
+          "status",
+          "receiver",
+          "num_employee_receiver",
+          "shift",
+          "date",
+          "time",
+          "area",
+          "tester",
+          "reason_scrap",
+          "qty_scrap",
+          "sn_scrap",
+          "material",
+          "qty_material",
+          "sn_material",
+          "comments",
         ].some((key) =>
           record[key]?.toString().toLowerCase().includes(lowerCaseText)
         )
@@ -67,6 +83,14 @@ export const TableInOuts = () => {
 
   const handleSearchChange = (e) => {
     setSearchText(e.target.value);
+  };
+
+  const handleAreaChange = (e) => {
+    setAreaFilter(e.target.value);
+  };
+
+  const handleStatusChange = (e) => {
+    setStatusFilter(e.target.value);
   };
 
   return (
@@ -83,6 +107,29 @@ export const TableInOuts = () => {
           )}
         </div>
         <div className="flex items-end gap-3">
+          <select
+            name="status_filter"
+            className="mb-3 p-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
+            onChange={handleStatusChange}
+            value={statusFilter}
+          >
+            <option value="All Status">All Status</option>
+            <option value="Ingreso">Inputs</option>
+            <option value="Salida">Outputs</option>
+          </select>
+
+          <select
+            className="mb-3 p-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
+            name="area_filter"
+            value={areaFilter}
+            onChange={handleAreaChange}
+          >
+            <option value="Area">Area</option>
+            {areas.map((area) => (
+              <option value={area}>{area}</option>
+            ))}
+          </select>
+
           <input
             className="mb-3 p-2 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
             placeholder="Search..."

@@ -12,8 +12,5 @@ inOutsRouter.post('/', InOutsController.create);
 //delete
 inOutsRouter.delete('/:id', InOutsController.delete);
 
-// //update
-// inOutsRouter.patch('/:id', InOutsController.update);
-
-// //check
-// inOutsRouter.patch('/check-return/:id', InOutsController.check_return);
+//update
+inOutsRouter.patch('/:id', InOutsController.update);
