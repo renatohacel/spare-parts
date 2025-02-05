@@ -2,35 +2,5 @@
 
 ---Pendientes relativamente pronto---
 
-1. Creación del layout
-   []Ver como enlazar e iterar los racks
-
+1. Depuracion del Dasboard, analisis del key prop
 ---Pendientes a futuro---
-
-1. Sección In/Outs:
-   []Comenzar con la tabla
-   -Minimo con la sección, aunque la tabla este vacía
-   -Tener el hook, con el service de get
-   []Comenzar con el diseño del formulario
-   -CAMPOS AUTOCOMPLETE:
-   -responsible (login.user.name)
-   -num_employee_responsible(login.user.num_employee)
-   -status(Ingreso/Salida)
-   -receiver (tabla_personal, referencia en out_tools)
-   -num_employee_receiver(tabla_personal, referencia en out_tools)
-   -shift (ver si puede ser dinámico depende la hora)
-   -date(referencia en out_tools)
-   -time(referencia en out_tools)
-   -area(tabla tester/area)
-   -tester(tabla tester/area)
-   -material(referencia a la tabla inventory)
-   -CAMPOS QUE NO SON AUTO COMPLETE:
-   -Motivo SCRAP
-   -QTY SCRAP
-   -SN SCRAP
-   -QTY MATERIAL
-   -SN CAMBIO
-   -COMMENTS
-2. Tabla de Área y Testers:
-   []Ver el diseño de la tabla y como se manejara
-   -Testers y area en total.

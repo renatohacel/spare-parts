@@ -67,7 +67,7 @@ export class OutToolsController {
         if (input.error) return res.status(400).json({ error: JSON.parse(input.error.message) });
 
         try {
-            console.log('Updating out tool with id:', id, 'and input:', req.body);
+            
             const result = await OutToolsModel.update({ id, input: req.body });
 
             if (result === null) return res.status(404).json({ message: 'No se encontro el préstamo de herramienta' });

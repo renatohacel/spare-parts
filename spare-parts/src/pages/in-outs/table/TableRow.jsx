@@ -115,19 +115,6 @@ export const TableRow = ({
                   qty_material,
                   sn_material: sn_material || "",
                   comments: comments || "",
-                  selectedReceiver: {
-                    value: receiver,
-                    label: receiver,
-                    num_employee: num_employee_receiver,
-                  },
-                  selectedArea: {
-                    value: area,
-                    label: area,
-                  },
-                  selectedMaterial: {
-                    value: material,
-                    label: material,
-                  },
                 });
               }}
             >

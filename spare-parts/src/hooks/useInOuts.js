@@ -1,7 +1,7 @@
 import { useReducer, useState } from "react"
 import { inOutsReducer } from "../reducers/inOutsReducer"
 import Swal from "sweetalert2";
-import { getAllInOuts } from "../pages/in-outs/services/inOutServices";
+import { createInOut, deleteInOut, getAllInOuts, updateInOut } from "../pages/in-outs/services/inOutServices";
 
 const Toast = Swal.mixin({
     toast: true,
@@ -24,7 +24,7 @@ const initialFormInOut = {
     id: 0,
     receiver: '',
     num_employee_receiver: '',
-    status: '',
+    status: 'Ingreso',
     area: '',
     tester: '',
     reason_scrap: '',
@@ -34,6 +34,8 @@ const initialFormInOut = {
     qty_material: '',
     sn_material: '',
     comments: '',
+    date: '',
+    time: '',
 }
 
 
@@ -44,6 +46,7 @@ export const useInOuts = () => {
     const [visibleForm, setVisibleForm] = useState(false);
     const [errors, setErrors] = useState({});
     const [inOutSelected, setInOutSelected] = useState(initialFormInOut);
+    const [isSend, setIsSend] = useState(false)
 
     const getInOuts = async () => {
         try {
@@ -60,6 +63,45 @@ export const useInOuts = () => {
         }
     }
 
+    const handlerAddInOut = async(inOut) => {
+        try {
+            const {id} = inOut
+
+            const response = id === 0
+                ? await createInOut(inOut)
+                : await updateInOut(inOut)
+
+            if(response.status === 201){
+                dispatch({
+                    type: (id === 0) ? 'addInOut' : 'updateInOut',
+                    payload: response.data.result
+                });
+
+                if(id !== 0){
+                    handlerCloseFormInOut();
+                    Toast.fire({
+                        icon: "success",
+                        title: 'In/Out updated successfully'
+                    })
+                    setIsSend(false);
+                }else {
+                    setIsSend(true);
+                    OnSend();
+                }
+            } else if(response.status === 409){
+                setErrors({num_employee_receiver: 'The employee number does not match the employee'})
+            } else {
+                throw new Error('Error desconocido');
+            }
+        } catch (error) {
+            console.error('Error in handlerAddInOut:', error);
+            Toast.fire({
+                icon: "error",
+                title: "Error al registrar in/out",
+            });   
+        }
+    }
+
 
 
     const handlerDeleteInOut = async (id) => {
@@ -73,12 +115,12 @@ export const useInOuts = () => {
             confirmButtonText: "Si, eliminar"
         }).then((result) => {
             if (result.isConfirmed) {
-                // deleteMaterial(id);
-                // dispatch({
-                //     type: "deleteInventory",
-                //     payload: id,
-                // });
-                console.log('DELETING...')
+                deleteInOut(id);
+                dispatch({
+                    type: "deleteInOut",
+                    payload: id,
+                });
+                console.log(id)
                 Toast.fire({
                     title: "In/Out eliminado correctamente",
                     icon: "success"
@@ -107,6 +149,16 @@ export const useInOuts = () => {
         setErrors({});
     }
 
+    const OnSend = () => {
+        const resetForm = {...initialFormInOut}
+        setInOutSelected(resetForm)
+        setErrors({});
+
+        setTimeout(() => {
+            setIsSend(false);
+        }, 1000);
+    }
+
 
     return {
         inOuts,
@@ -116,6 +168,7 @@ export const useInOuts = () => {
         errors,
         inOutSelected,
         initialFormInOut,
+        isSend,
 
 
         getInOuts,
@@ -123,5 +176,6 @@ export const useInOuts = () => {
         handlerCloseFormInOut,
         handlerInOutSelected,
         handlerDeleteInOut,
+        handlerAddInOut,
     }
 }

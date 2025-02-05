@@ -22,10 +22,11 @@ export const TablePersonal = () => {
   const [searchText, setSearchText] = useState("");
   const [areaFilter, setAreaFilter] = useState("Area");
 
+
   useEffect(() => {
     getPersonal();
   }, []);
-
+  
   useEffect(() => {
     applyFilters();
   }, [personal, searchText, areaFilter]);

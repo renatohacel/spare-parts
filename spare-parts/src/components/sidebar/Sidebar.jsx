@@ -42,7 +42,7 @@ export const Sidebar = () => {
           <MenuTools />
 
           {/*CONTROL DE DANIOS */}
-          <MenuDamageControl />
+          {/* <MenuDamageControl /> */}
 
           {/*PERSONAL */}
           <MenuPersonal />

@@ -38,16 +38,24 @@ export const TableInOuts = () => {
       const lowerCaseText = searchText.toLowerCase();
       records = records.filter((record) =>
         [
-          "id_feature",
-          "name",
-          "part_num",
-          "suplier_part_num",
-          "qty_import_total",
-          "qty",
-          "location",
-          "damages",
-          "qty_export_total",
-          "comments",
+          "id",
+          'responsible',
+          'num_employee_responsible',
+          'status',
+          'receiver',
+          'num_employee_receiver',
+          'shift',
+          'date',
+          'time',
+          'area',
+          'tester',
+          'reason_scrap',
+          'qty_scrap',
+          'sn_scrap',
+          'material',
+          'qty_material',
+          'sn_material',
+          'comments',
         ].some((key) =>
           record[key]?.toString().toLowerCase().includes(lowerCaseText)
         )

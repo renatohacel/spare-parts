@@ -128,8 +128,6 @@ export const Dashboard = () => {
     });
   };
 
-  console.log(notFound);
-
   return (
     <main className="flex-1 p-8 text-slate-500">
       <div className="flex flex-row gap-2 text-3xl font-bold">
