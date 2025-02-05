@@ -125,8 +125,10 @@ export const TableInOuts = () => {
             onChange={handleAreaChange}
           >
             <option value="Area">Area</option>
-            {areas.map((area) => (
-              <option value={area}>{area}</option>
+            {areas.map((area, index) => (
+              <option key={index} value={area}>
+                {area}
+              </option>
             ))}
           </select>
 

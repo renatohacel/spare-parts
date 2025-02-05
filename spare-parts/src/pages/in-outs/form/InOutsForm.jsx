@@ -34,13 +34,20 @@ export const InOutsForm = () => {
   const { getPersonal, personal } = personalHook;
   const { inventory, getInventory } = inventoryHook;
 
-  const { errors, handlerCloseFormInOut, initialFormInOut, inOutSelected, handlerAddInOut, isSend } =
-    inOutsHook;
+  const {
+    errors,
+    handlerCloseFormInOut,
+    initialFormInOut,
+    inOutSelected,
+    handlerAddInOut,
+    isSend,
+  } = inOutsHook;
 
   const [inOutForm, setInOutForm] = useState(initialFormInOut);
   const [selectedReceiver, setSelectedReceiver] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
+  const [stock, setStock] = useState(0);
 
   const {
     id,
@@ -57,6 +64,25 @@ export const InOutsForm = () => {
     time,
   } = inOutForm;
 
+  const receiverOptions = personal.map((employee) => ({
+    value: employee.name,
+    label: employee.name,
+    num_employee: employee.num_employee,
+  }));
+
+  const areaOptions = areas.map((area) => ({
+    value: area,
+    label: area,
+  }));
+
+  const materialOptions = inventory
+    .filter((material) => material.qty > 0)
+    .map((material) => ({
+      value: material.name,
+      label: material.name,
+      stock: material.qty,
+    }));
+
   useEffect(() => {
     getPersonal();
     getInventory();
@@ -67,19 +93,12 @@ export const InOutsForm = () => {
     setSelectedReceiver(inOutSelected.receiver);
     setSelectedArea(inOutSelected.area);
     setSelectedMaterial(inOutSelected.material);
+    setStock(inOutSelected?.stock || 0);
   }, [inOutSelected]);
-
   // Actualizar el estado del formulario de salida de herramientas
   const onInputChange = ({ target: { value, name } }) => {
     setInOutForm({ ...inOutForm, [name]: value });
   };
-
-  // Crear opciones para React-Select a partir de los datos de "personal"
-  const receiverOptions = personal.map((employee) => ({
-    value: employee.name,
-    label: employee.name,
-    num_employee: employee.num_employee,
-  }));
 
   // Manejar el cambio de receptor
   const onReceiverChange = (selectedOption) => {
@@ -91,10 +110,6 @@ export const InOutsForm = () => {
     });
   };
 
-  const areaOptions = areas.map((area) => ({
-    value: area,
-    label: area,
-  }));
   const onAreaChange = (selectedOption) => {
     setSelectedArea(selectedOption);
     setInOutForm({
@@ -103,19 +118,13 @@ export const InOutsForm = () => {
     });
   };
 
-  const materialOptions = inventory
-    .filter((material) => material.qty > 0)
-    .map((material) => ({
-      value: material.name,
-      label: material.name,
-    }));
-
   const onMaterialChange = (selectedOption) => {
     setSelectedMaterial(selectedOption);
     setInOutForm({
       ...inOutForm,
       material: selectedOption?.value || "",
     });
+    setStock(selectedOption?.stock || 0);
   };
 
   const onSubmit = (e) => {
@@ -137,6 +146,16 @@ export const InOutsForm = () => {
       return;
     }
 
+    if (status === "Salida") {
+      if (qty_material > stock) {
+        Toast.fire({
+          icon: "warning",
+          title: "No hay stock para esa cantidad de material",
+        });
+        return;
+      }
+    }
+
     const date = new Date();
     const formattedDate = date.toISOString().split("T")[0]; // YYYY-MM-DD
     const formattedTime = date.toTimeString().split(" ")[0]; // HH:mm:ss
@@ -156,7 +175,7 @@ export const InOutsForm = () => {
         num_employee_receiver: parseInt(num_employee_receiver, 10),
         qty_material: parseInt(qty_material, 10),
         qty_scrap: parseInt(qty_scrap, 10),
-      }
+      };
       handlerAddInOut(formData);
     } else {
       //EDIT
@@ -171,7 +190,7 @@ export const InOutsForm = () => {
         num_employee_receiver: parseInt(num_employee_receiver, 10),
         qty_material: parseInt(qty_material, 10),
         qty_scrap: parseInt(qty_scrap, 10),
-      }
+      };
       handlerAddInOut(formData);
     }
   };
@@ -189,7 +208,10 @@ export const InOutsForm = () => {
         {/* Campo de receptor con React-Select */}
         <div className="col-span-1">
           <div className="flex flex-col p-1">
-            <label className="text-slate-400 font-medium mb-1" htmlFor="receiver">
+            <label
+              className="text-slate-400 font-medium mb-1"
+              htmlFor="receiver"
+            >
               Receiver*
             </label>
             <Select
@@ -226,7 +248,10 @@ export const InOutsForm = () => {
           </p>
 
           <div className="flex flex-col p-1">
-            <label className="text-slate-400 font-medium mb-1" htmlFor="comments">
+            <label
+              className="text-slate-400 font-medium mb-1"
+              htmlFor="comments"
+            >
               Comments
             </label>
             <input
@@ -351,7 +376,10 @@ export const InOutsForm = () => {
           </div>
 
           <div className="flex flex-col p-1">
-            <label className="text-slate-400 font-medium mb-1" htmlFor="sn_scrap">
+            <label
+              className="text-slate-400 font-medium mb-1"
+              htmlFor="sn_scrap"
+            >
               SN. SCRAP
             </label>
             <input
@@ -365,7 +393,10 @@ export const InOutsForm = () => {
         </div>
         <div className="col-span-1">
           <div className="flex flex-col p-1">
-            <label className="text-slate-400 font-medium mb-1" htmlFor="material">
+            <label
+              className="text-slate-400 font-medium mb-1"
+              htmlFor="material"
+            >
               Material*
             </label>
             <Select
@@ -385,7 +416,10 @@ export const InOutsForm = () => {
               className="text-slate-400 font-medium mb-1"
               htmlFor="qty_material"
             >
-              Qty. Material*
+              Qty. Material*{" "}
+              <span className="text-red-400">
+                {status === "Salida" && `Stock: ${stock}`}
+              </span>
             </label>
             <input
               className="border border-slate-300 rounded-md py-1 px-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"

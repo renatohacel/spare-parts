@@ -42,6 +42,8 @@ export class InOutsModel {
                     by: qty_material,
                     where: { name: material }
                 })
+
+
             }
 
             return inOut;

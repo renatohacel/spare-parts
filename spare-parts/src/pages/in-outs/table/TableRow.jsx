@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../auth/context/AuthContext";
 import { DashboardContext } from "../../../context/DashboardContext";
 import { FaEdit, FaTrash } from "react-icons/fa";
@@ -26,8 +26,23 @@ export const TableRow = ({
   comments,
 }) => {
   const { login } = useContext(AuthContext);
-  const { inOutsHook } = useContext(DashboardContext);
+  const { inOutsHook, inventoryHook } = useContext(DashboardContext);
   const { handlerInOutSelected, handlerDeleteInOut } = inOutsHook;
+  const { inventory, getInventory } = inventoryHook;
+  const [stock, setStock] = useState(0);
+
+  useEffect(() => {
+    getInventory();
+  }, []);
+
+  useEffect(() => {
+    const foundMaterial = inventory.find((item) => item.name === material);
+    if (foundMaterial) {
+      setStock(foundMaterial.qty);
+    } else {
+      setStock(0);
+    }
+  }, [inventory, material]);
 
   return (
     <tr className="bg-white transition-all duration-500 hover:bg-slate-100 text-center">
@@ -115,6 +130,10 @@ export const TableRow = ({
                   qty_material,
                   sn_material: sn_material || "",
                   comments: comments || "",
+                  stock:
+                    status === "Salida"
+                      ? stock + qty_material
+                      : stock - qty_material,
                 });
               }}
             >
