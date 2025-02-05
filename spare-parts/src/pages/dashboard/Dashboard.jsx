@@ -194,47 +194,40 @@ export const Dashboard = () => {
             </div>
           )}
           {rackLayout.map((block, blockIndex) => (
-            <>
-              <div key={blockIndex} className="row-span-1">
+            <React.Fragment key={blockIndex}>
+              <div className="row-span-1">
                 {block.map((row, rowIndex) => (
-                  <>
-                    <div
-                      key={rowIndex}
-                      className={`px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg ${
-                        rowIndex > 0 ? "mt-1" : ""
-                      }`}
-                    >
-                      {row.map((rackNum) => {
-                        const isHighlighted = rackNum === highlightRack;
-                        const disabled = isRackDisabled(rackNum);
+                  <div
+                    key={`${blockIndex}-${rowIndex}`} // Key única por fila
+                    className={`px-3 py-5 items-center flex flex-row gap-3 justify-between bg-slate-300 bg-opacity-70 text-center rounded-lg h-14 shadow-lg ${
+                      rowIndex > 0 ? "mt-1" : ""
+                    }`}
+                  >
+                    {row.map((rackNum) => {
+                      const isHighlighted = rackNum === highlightRack;
+                      const disabled = isRackDisabled(rackNum);
 
-                        return (
-                          <button
-                            key={rackNum}
-                            ref={(el) => (rackRefs.current[rackNum] = el)}
-                            disabled={disabled}
-                            onClick={() => handleRackClick(rackNum)}
-                            className={`
-                          rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono 
-                          transition-all duration-500
-                          ${
+                      return (
+                        <button
+                          key={rackNum}
+                          ref={(el) => (rackRefs.current[rackNum] = el)}
+                          disabled={disabled}
+                          onClick={() => handleRackClick(rackNum)}
+                          className={`rounded-lg p-1 w-full overflow-auto text-white text-xl font-mono transition-all duration-500 ${
                             isHighlighted
                               ? "-translate-y-3 bg-teal-600 shadow-2xl shadow-green-700 hover:bg-teal-500 focus:outline-none focus:ring-teal-700 focus:ring-2"
                               : "bg-slate-600 hover:shadow-2xl hover:bg-slate-400 hover:-translate-y-3"
-                          }
-                          ${disabled ? "opacity-50 cursor-not-allowed" : ""}
-                        `}
-                          >
-                            RACK {rackNum}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </>
+                          } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+                        >
+                          RACK {rackNum}
+                        </button>
+                      );
+                    })}
+                  </div>
                 ))}
               </div>
               <hr />
-            </>
+            </React.Fragment>
           ))}
         </div>
       </Card>
